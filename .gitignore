@@ -60,6 +60,9 @@ freeline_project_description.json
 .AppleDouble
 .LSOverride
 
+# IDE Settings
+.idea
+
 # Icon must end with two \r
 Icon
 
