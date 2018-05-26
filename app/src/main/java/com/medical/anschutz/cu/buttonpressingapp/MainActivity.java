@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.content.Intent;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
 
         //row to hold a button
         TableRow buttonRow = new TableRow(this);
+        //height of row
+        buttonRow.setMinimumHeight(1000);
 
         button = new Button(this);
 //apply button attributes
@@ -32,9 +35,19 @@ public class MainActivity extends AppCompatActivity {
         button.setWidth(300);
 //text
         button.setText("Test");
+//button location
+        button.setX(40);
+        button.setY(60);
 //text dropshadow
         button.setShadowLayer(50, 30, 30, Color.BLACK);
         button.setRotation(45);
+//button click event
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), HomePage.class);
+                startActivity(intent);
+            }
+        });
 
         buttonRow.addView(button);
         View parent = buttonRow;
@@ -44,10 +57,10 @@ public class MainActivity extends AppCompatActivity {
                 Rect delegateArea = new Rect();
                 Button delegate = button;
                 delegate.getHitRect(delegateArea);
-                delegateArea.top -= 600;           //Choose yourself
-                delegateArea.bottom += 600;
-                delegateArea.left -= 600;
-                delegateArea.right += 600;
+                delegateArea.top -= 300;           //Choose yourself
+                delegateArea.bottom += 300;
+                delegateArea.left -= 300;
+                delegateArea.right += 300;
 
                 TouchDelegate expandedArea = new TouchDelegate(delegateArea, delegate);
                 // give the delegate to an ancestor of the view we're
