@@ -1,4 +1,4 @@
-package com.medical.anschutz.cu.buttonpressingapp;
+package com.medical.anschutz.cu.buttonpressingapp.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,14 +7,19 @@ import android.view.View;
 import android.widget.Button;
 import android.graphics.Rect;
 import android.graphics.Color;
-import android.support.constraint.ConstraintLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.content.Intent;
 
+import com.medical.anschutz.cu.buttonpressingapp.R;
+import com.medical.anschutz.cu.buttonpressingapp.services.dataTransformers;
+
 public class MainActivity extends AppCompatActivity {
 
     private Button button;
+    private Button button2;
+    private dataTransformers dt = new dataTransformers();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,8 +30,8 @@ public class MainActivity extends AppCompatActivity {
         //row to hold a button
         TableRow buttonRow = new TableRow(this);
         //height of row
-        buttonRow.setMinimumHeight(1000);
-
+        buttonRow.setMinimumHeight(500);
+        buttonRow.setBackgroundColor(Color.GREEN);
         button = new Button(this);
 //apply button attributes
 //height
@@ -34,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 //width
         button.setWidth(300);
 //text
-        button.setText("Test");
+        button.setText("Home Page");
 //button location
         button.setX(40);
         button.setY(60);
@@ -48,8 +53,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        buttonRow.addView(button);
+        //set margins for a column
+        TableRow.LayoutParams lp = new TableRow.LayoutParams(
+                TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+        //set's margin for a set of columns
+        lp.setMargins(0, 50, 0, 0);
+        buttonRow.addView(button, lp);
         View parent = buttonRow;
         parent.post(new Runnable() {
             @Override
@@ -73,5 +82,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         buttonContainer.addView(buttonRow);
+
+        //messing around with arranging multiple buttons
+        TableRow buttonRow2 = new TableRow(this);
+        buttonRow2.setBackgroundColor(Color.RED);
+
+        TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(
+                TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT);
+        //set's margin for a set of columns
+        layoutParams.setMargins(100, 20, 0, 0);
+
+        Button button2 = new Button(this);
+        Button button3 = new Button(this);
+        Button button4 = new Button(this);
+        button2.setText("MORE");
+        button2.setHeight(20);
+        button2.setWidth(40);
+        button3.setText("BUTTONS");
+        button4.setText("HERE");
+        buttonRow2.addView(button2, layoutParams);
+        buttonRow2.addView(button3, layoutParams);
+        buttonRow2.addView(button4, layoutParams);
+        buttonContainer.addView(buttonRow2);
     }
 }
