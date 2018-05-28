@@ -1,41 +1,35 @@
-package com.medical.anschutz.cu.buttonpressingapp.activities;
+package com.medical.anschutz.cu.buttonpressingapp;
 
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Rect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.widget.Button;
-import android.graphics.Rect;
-import android.graphics.Color;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.content.Intent;
 
-import com.medical.anschutz.cu.buttonpressingapp.R;
+import com.medical.anschutz.cu.buttonpressingapp.activities.HomePage;
 import com.medical.anschutz.cu.buttonpressingapp.model.ButtonConfig;
-import com.medical.anschutz.cu.buttonpressingapp.services.dataTransformers;
 import com.medical.anschutz.cu.buttonpressingapp.util.ButtonGenerator;
 
-public class MainActivity extends AppCompatActivity {
-
-    private Button button;
-    private Button button2;
-    private dataTransformers dt = new dataTransformers();
+public class Session extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_session);
 
         TableLayout buttonContainer = findViewById(R.id.buttonContainer);
 
-        //row to hold a button
         TableRow buttonRow = new TableRow(this);
         //height of row
         buttonRow.setMinimumHeight(500);
         buttonRow.setBackgroundColor(Color.GREEN);
         ButtonConfig config = new ButtonConfig();
-        button = ButtonGenerator.generateButton(this, config);
+        Button button = ButtonGenerator.generateButton(this, config);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), HomePage.class);
@@ -50,28 +44,7 @@ public class MainActivity extends AppCompatActivity {
         buttonRow.addView(button, lp);
         View parent = buttonRow;
 
-        //create a rectangle to expand the hit area of a button
-        parent.post(new Runnable() {
-            @Override
-            public void run() {
-                Rect delegateArea = new Rect();
-                Button delegate = button;
-                delegate.getHitRect(delegateArea);
-                delegateArea.top -= 300;           //Choose yourself
-                delegateArea.bottom += 300;
-                delegateArea.left -= 300;
-                delegateArea.right += 300;
 
-                TouchDelegate expandedArea = new TouchDelegate(delegateArea, delegate);
-                // give the delegate to an ancestor of the view we're
-                // delegating the
-                // area to
-                if (View.class.isInstance(delegate.getParent())) {
-                    ((View) delegate.getParent())
-                            .setTouchDelegate(expandedArea);
-                }
-            }
-        });
         buttonContainer.addView(buttonRow);
 
         //messing around with arranging multiple buttons
