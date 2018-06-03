@@ -3,13 +3,14 @@ package com.medical.anschutz.cu.buttonpressingapp.model;
 import android.graphics.Color;
 
 public class Defaults {
-    /* Session */
-    public static final int DEFAULT_SESSION_BUTTON_COLUMNS = 4;
-    public static final int DEFAULT_SESSION_BUTTON_ROWS = 6;
-    public static final int DEFAULT_SESSION_BUTTON_ROW_MAX_HEIGHT = 200;
-    public static final int DEFAULT_SESSION_BUTTON_ROW_MAX_WIDTH = 600;
-    public static final int DEFAULT_SESSION_SUCCESS_X_POSITION = 0;
-    public static final int DEFAULT_SESSION_SUCCESS_Y_POSITION = 0;
+    /* Screen */
+    public static final int DEFAULT_SCREEN_BUTTON_COLUMNS = 4;
+    public static final int DEFAULT_SCREEN_BUTTON_ROWS = 6;
+    public static final int DEFAULT_SCREEN_BUTTON_ROW_MAX_HEIGHT = 200;
+    public static final int DEFAULT_SCREEN_BUTTON_ROW_MIN_HEIGHT = 150;
+    public static final int DEFAULT_SCREEN_BUTTON_ROW_MAX_WIDTH = 600;
+    public static final int DEFAULT_SCREEN_SUCCESS_X_POSITION = 0;
+    public static final int DEFAULT_SCREEN_SUCCESS_Y_POSITION = 0;
 
     /* Button */
     //size and position

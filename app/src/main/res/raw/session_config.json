@@ -1,0 +1,28 @@
+{
+  "screenConfigs" : [
+    {
+      "rowConfigs" : [
+        {
+          "buttonConfigs" : [
+            {
+              "height" : "100",
+              "width" : "200",
+              "xPosition" : "10",
+              "yPosition" : "10",
+              "rotation" : "0",
+              "text" : "Button WOOOOOOO"
+            },
+            {
+              "height" : "100",
+              "width" : "200",
+              "xPosition" : "10",
+              "yPosition" : "10",
+              "rotation" : "0",
+              "text" : "Button WOOOOOOO"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
