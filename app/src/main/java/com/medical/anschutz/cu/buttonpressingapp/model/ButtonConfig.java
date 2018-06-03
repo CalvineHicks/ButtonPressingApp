@@ -2,7 +2,9 @@ package com.medical.anschutz.cu.buttonpressingapp.model;
 
 import android.graphics.Color;
 
-public class ButtonConfig {
+import java.io.Serializable;
+
+public class ButtonConfig implements Serializable{
 
     private Integer height = Defaults.DEFAULT_BUTTON_HEIGHT;
     private Integer width = Defaults.DEFAULT_BUTTON_WIDTH;

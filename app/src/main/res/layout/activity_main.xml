@@ -7,15 +7,61 @@
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
 
-    <TableLayout
-        android:id="@+id/buttonContainer"
-        android:layout_width="368dp"
-        android:layout_height="0dp"
+    <Button
+        android:id="@+id/start_session2"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="16dp"
+        android:onClick="startSession"
+        android:text="Start Session"
+        android:textSize="27dp"
+        app:layout_constraintBottom_toTopOf="@+id/practice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/practice2" />
+
+    <Button
+        android:id="@+id/practice2"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="24dp"
+        android:text="Practice"
+        android:textSize="26dp"
+        app:layout_constraintBottom_toTopOf="@+id/config"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/config2"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:text="Config"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/data_export2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/start_session2" />
+
+    <Button
+        android:id="@+id/data_export2"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:text="Data Export"
+        android:textSize="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></TableLayout>
+        app:layout_constraintTop_toBottomOf="@+id/config" />
+
 </android.support.constraint.ConstraintLayout>
