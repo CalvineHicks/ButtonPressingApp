@@ -18,6 +18,10 @@ public class ExtendedButton extends AppCompatButton {
         this.setWidth(config.getWidth());
         //text
         this.setText(config.getText());
+        //textStyle
+        this.setTypeface(null, config.getStyle());
+        //textLocation
+
         //button location
         this.setX(config.getxPosition());
         this.setY(config.getyPosition());
