@@ -2,9 +2,7 @@ package com.medical.anschutz.cu.buttonpressingapp.model;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
-
 import com.medical.anschutz.cu.buttonpressingapp.services.dataTransformers;
-
 import java.io.Serializable;
 
 public class ButtonConfig implements Serializable{
