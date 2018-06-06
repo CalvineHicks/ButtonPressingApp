@@ -11,6 +11,7 @@ import android.widget.TableRow;
 
 import com.medical.anschutz.cu.buttonpressingapp.R;
 import com.medical.anschutz.cu.buttonpressingapp.model.ButtonConfig;
+import com.medical.anschutz.cu.buttonpressingapp.model.Defaults;
 import com.medical.anschutz.cu.buttonpressingapp.model.ExtendedButton;
 import com.medical.anschutz.cu.buttonpressingapp.model.ScreenConfig;
 import com.medical.anschutz.cu.buttonpressingapp.model.SessionConfig;
@@ -68,6 +69,8 @@ public class Session extends AppCompatActivity {
     }
 
     public void failureClick(View view){
-        //TODO handle error click
+        if(config.getProgressionRule().equals(Defaults.DEFAULT_PROGRESSION_RULE)){
+            successClick(view);
+        }
     }
 }

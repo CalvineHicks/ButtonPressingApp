@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Defaults {
+
+
+    /* session */
+    public static final enum PROGRESSION_RULES {"progressOnSuccessButtonClick", "progressOnButtonClick", "progressOnAnyClick"};
+
     /* Screen */
     public static final int DEFAULT_SCREEN_BUTTON_COLUMNS = 4;
     public static final int DEFAULT_SCREEN_BUTTON_ROWS = 6;
