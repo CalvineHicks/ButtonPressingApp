@@ -12,6 +12,7 @@ public class SessionConfig implements Serializable{
     private Defaults.PROGRESSION_RULE progressionRule = Defaults.DEFAULT_PROGRESSION_RULE;
 
     public static SessionConfig fromJson(String s) {
+        System.out.println(s);
         return new Gson().fromJson(s, SessionConfig.class);
     }
 

@@ -2,6 +2,7 @@ package com.medical.anschutz.cu.buttonpressingapp.model;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.view.Gravity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,7 +35,10 @@ public class Defaults {
     public static final int DEFAULT_BUTTON_COLOR = Color.GRAY;
     public static final String DEFAULT_BUTTON_TEXT_FONT = "roboto";
     public static final int DEFAULT_BUTTON_TEXT_STYLE = Typeface.NORMAL;
-    public static final String DEFAULT_BUTTON_TEXT_GRAVITY = "center_horizontal | center_vertical";
+    public static final ArrayList<Integer> DEFAULT_BUTTON_TEXT_GRAVITY = new ArrayList<Integer>(Arrays.asList(Gravity.CENTER_VERTICAL,Gravity.CENTER_HORIZONTAL));
     public static final ArrayList DEFAULT_BUTTON_TEXT_PADDING = new ArrayList<Integer>(Arrays.asList(0, 0,0,0));
     public static final ArrayList<Integer> DEFAULT_BUTTON_MARGINS = new ArrayList<Integer>(Arrays.asList(0, 0,0,0));
+
+    //event settings
+    public static final String DEFAULT_BUTTON_CLICK_EVENT = "success";
 }

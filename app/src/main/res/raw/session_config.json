@@ -9,16 +9,16 @@
               "width" : "200",
               "xPosition" : "10",
               "yPosition" : "10",
-              "rotation" : "0",
-              "text" : "Button WOOOOOOO"
+              "rotation" : "25",
+              "text" : "Button 1"
             },
             {
-              "height" : "100",
-              "width" : "200",
+              "height" : "200",
+              "width" : "100",
               "xPosition" : "10",
               "yPosition" : "10",
               "rotation" : "0",
-              "text" : "Button WOOOOOOO"
+              "text" : "Button 2"
             }
           ]
         }

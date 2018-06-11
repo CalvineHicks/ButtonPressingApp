@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
         SessionConfig config = null;
         if(confString != null)
             config = SessionConfig.fromJson(confString);
-
         intent.putExtra("config", config);
         startActivity(intent);
         finish();

@@ -4,11 +4,13 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.widget.Button;
 
 public class ExtendedButton extends AppCompatButton {
+    public String eventType;
     public ExtendedButton(Context context, View view, ButtonConfig config) {
         super(context);
         this.setBackgroundColor(config.getBackgroundColor());
@@ -21,12 +23,15 @@ public class ExtendedButton extends AppCompatButton {
         //textStyle
         this.setTypeface(null, config.getStyle());
         //textLocation
-
+        this.setGravity(config.getGravity());
         //button location
         this.setX(config.getxPosition());
         this.setY(config.getyPosition());
         this.setRotation(config.getRotation());
+
+        //button events
         this.setClickableArea(view);
+        this.eventType = config.getButtonEvent();
     }
 
     public void setClickableArea(View view){

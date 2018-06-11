@@ -19,12 +19,13 @@ import com.medical.anschutz.cu.buttonpressingapp.util.ButtonGenerator;
 
 import java.util.List;
 
-public class Session extends AppCompatActivity {
+public class Session extends AppCompatActivity{
 
     private int currentScreenNum = 0;
     private SessionConfig config = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        System.out.println("starting Session");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_session);
 
@@ -37,6 +38,7 @@ public class Session extends AppCompatActivity {
         else{
             System.out.println("config loaded successfully");
         }
+        System.out.println("about to generate screen");
 
         //iterate through screens one at a time, start at first screen
         generateScreen(0);
@@ -46,6 +48,7 @@ public class Session extends AppCompatActivity {
     private void generateScreen(int screenNum){
         ScreenConfig screenConfig = config.getScreenConfigs().get(screenNum);
         TableLayout buttonContainer = findViewById(R.id.buttonContainer);
+        buttonContainer.removeAllViews();
 
         //add button rows and butttons
         List<ScreenConfig.RowConfig> rowConfigs = screenConfig.getRowConfigs();
@@ -57,7 +60,14 @@ public class Session extends AppCompatActivity {
             //set's margin for a set of columns
             lp.setMargins(0, 0, 0, 0);
             for(ButtonConfig buttonConfig : rowConfig.getButtonConfigs()){
-                Button button = new ExtendedButton(this, buttonRow, buttonConfig);
+                final ExtendedButton button = new ExtendedButton(this, buttonRow, buttonConfig);
+                button.setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View v) {
+                        if(button.eventType.equals("success")){
+                            successClick(v);
+                        }
+                    }
+                });
                 buttonRow.addView(button);
             }
             buttonContainer.addView(buttonRow);
@@ -65,12 +75,19 @@ public class Session extends AppCompatActivity {
     }
 
     public void successClick(View view){
-        //TODO handle success click
+        if(config.getScreenConfigs().size() > currentScreenNum) {
+            currentScreenNum += 1;
+            generateScreen(currentScreenNum);
+        }
+        else
+            System.out.println("past the screen limit at: " + currentScreenNum);
     }
 
     public void failureClick(View view){
-        if(config.getProgressionRule().equals(Defaults.DEFAULT_PROGRESSION_RULE)){
+        if(config.getProgressionRule().equals(Defaults.PROGRESSION_RULE.PROGRESS_ON_BUTTON_PRESS)){
             successClick(view);
         }
     }
+
+    //TODO handle any screen press
 }
