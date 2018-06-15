@@ -64,6 +64,9 @@ public class Session extends AppCompatActivity {
                         if(button.eventType.equals("success")){
                             successClick(v);
                         }
+                        else if(button.eventType.equals("failure")){
+                            failureClick(v);
+                        }
                     }
                 });
                 buttonRow.addView(button);

@@ -10,7 +10,8 @@
               "xPosition" : "10",
               "yPosition" : "10",
               "rotation" : "0",
-              "text" : "Button 1"
+              "text" : "Button 1",
+              "buttonEvent" : "success"
             },
             {
               "height" : "100",
@@ -18,7 +19,8 @@
               "xPosition" : "10",
               "yPosition" : "10",
               "rotation" : "0",
-              "text" : "Button 2"
+              "text" : "Button 2",
+              "buttonEvent" : "failure"
             }
           ]
         }
@@ -34,7 +36,8 @@
               "xPosition" : "10",
               "yPosition" : "10",
               "rotation" : "0",
-              "text" : "Button 3"
+              "text" : "Button 3",
+              "buttonEvent" : "success"
             },
             {
               "height" : "100",
@@ -42,7 +45,8 @@
               "xPosition" : "10",
               "yPosition" : "10",
               "rotation" : "0",
-              "text" : "Button 4"
+              "text" : "Button 4",
+              "buttonEvent" : "failure"
             }
           ]
         }
