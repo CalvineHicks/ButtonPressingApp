@@ -3,6 +3,10 @@ package com.medical.anschutz.cu.buttonpressingapp.model;
 import android.graphics.Color;
 
 public class Defaults {
+
+    /* Session */
+    public static final enum PROGRESSION_RULES {"progressOnSuccessButtonClick", "progressOnButtonClick", "progressOnAnyClick"};
+
     /* Screen */
     public static final int DEFAULT_SCREEN_BUTTON_COLUMNS = 4;
     public static final int DEFAULT_SCREEN_BUTTON_ROWS = 6;
@@ -24,4 +28,5 @@ public class Defaults {
     public static final String DEFAULT_BUTTON_TEXT = "TEXT";
     public static final int DEFAULT_BUTTON_COLOR = Color.GRAY;
 
+    //button events
 }
