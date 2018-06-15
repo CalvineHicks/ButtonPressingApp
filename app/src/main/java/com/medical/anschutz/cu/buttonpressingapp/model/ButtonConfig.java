@@ -11,6 +11,7 @@ public class ButtonConfig implements Serializable{
     private Integer xPosition = Defaults.DEFAULT_BUTTON_X_POSITION;
     private Integer yPosition = Defaults.DEFAULT_BUTTON_Y_POSITION;
     private Integer rotation = Defaults.DEFAULT_BUTTON_ROTATION;
+    private String  buttonEvent = Defaults.DEFAULT_BUTTON_CLICK_EVENT;
 
     //Text and Styling
     private String text = Defaults.DEFAULT_BUTTON_TEXT;
@@ -71,5 +72,9 @@ public class ButtonConfig implements Serializable{
     public void setBackgroundColor(int backgroundColor) {
         this.backgroundColor = backgroundColor;
     }
+
+    //Button Events
+    public void setButtonEvent(String eventType) { this.buttonEvent = eventType; }
+    public String getButtonEvent(){return buttonEvent;}
 
 }

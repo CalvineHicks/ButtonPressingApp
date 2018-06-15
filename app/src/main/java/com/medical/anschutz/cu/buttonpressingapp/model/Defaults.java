@@ -5,7 +5,8 @@ import android.graphics.Color;
 public class Defaults {
 
     /* Session */
-    public static final enum PROGRESSION_RULES {"progressOnSuccessButtonClick", "progressOnButtonClick", "progressOnAnyClick"};
+    public static enum PROGRESSION_RULE {PROGRESS_ON_SUCCESS_ONLY, PROGRESS_ON_BUTTON_PRESS, PROGRESS_ON_ANY_PRESS};
+    public static final PROGRESSION_RULE DEFAULT_PROGRESSION_RULE = PROGRESSION_RULE.PROGRESS_ON_SUCCESS_ONLY;
 
     /* Screen */
     public static final int DEFAULT_SCREEN_BUTTON_COLUMNS = 4;
@@ -29,4 +30,5 @@ public class Defaults {
     public static final int DEFAULT_BUTTON_COLOR = Color.GRAY;
 
     //button events
+    public static final String DEFAULT_BUTTON_CLICK_EVENT = "success";
 }
