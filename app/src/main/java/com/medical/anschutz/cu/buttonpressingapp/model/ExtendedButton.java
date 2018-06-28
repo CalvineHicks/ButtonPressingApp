@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class ExtendedButton extends AppCompatButton {
+    public String eventType = Defaults.DEFAULT_BUTTON_CLICK_EVENT;
     public ExtendedButton(Context context, View view, ButtonConfig config) {
         super(context);
         this.setBackgroundColor(config.getBackgroundColor());
@@ -23,6 +24,7 @@ public class ExtendedButton extends AppCompatButton {
         this.setY(config.getyPosition());
         this.setRotation(config.getRotation());
         this.setClickableArea(view);
+        this.eventType = config.getButtonEvent();
     }
 
     public void setClickableArea(View view){

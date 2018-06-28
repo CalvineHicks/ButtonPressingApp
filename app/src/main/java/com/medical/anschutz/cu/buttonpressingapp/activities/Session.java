@@ -15,6 +15,7 @@ import com.medical.anschutz.cu.buttonpressingapp.model.ExtendedButton;
 import com.medical.anschutz.cu.buttonpressingapp.model.ScreenConfig;
 import com.medical.anschutz.cu.buttonpressingapp.model.SessionConfig;
 import com.medical.anschutz.cu.buttonpressingapp.util.ButtonGenerator;
+import com.medical.anschutz.cu.buttonpressingapp.model.Defaults;
 
 import java.util.List;
 
@@ -45,6 +46,7 @@ public class Session extends AppCompatActivity {
     private void generateScreen(int screenNum){
         ScreenConfig screenConfig = config.getScreenConfigs().get(screenNum);
         TableLayout buttonContainer = findViewById(R.id.buttonContainer);
+        buttonContainer.removeAllViews();
 
         //add button rows and butttons
         List<ScreenConfig.RowConfig> rowConfigs = screenConfig.getRowConfigs();
@@ -56,18 +58,36 @@ public class Session extends AppCompatActivity {
             //set's margin for a set of columns
             lp.setMargins(0, 0, 0, 0);
             for(ButtonConfig buttonConfig : rowConfig.getButtonConfigs()){
-                Button button = new ExtendedButton(this, buttonRow, buttonConfig);
+                final ExtendedButton button = new ExtendedButton(this, buttonRow, buttonConfig);
+                button.setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View v) {
+                        if(button.eventType.equals("success")){
+                            successClick(v);
+                        }
+                        else if(button.eventType.equals("failure")){
+                            failureClick(v);
+                        }
+                    }
+                });
                 buttonRow.addView(button);
             }
             buttonContainer.addView(buttonRow);
         }
     }
-
     public void successClick(View view){
-        //TODO handle success click
+        if(config.getScreenConfigs().size() > (currentScreenNum + 1)) {
+            currentScreenNum += 1;
+            generateScreen(currentScreenNum);
+        }
+        else
+            System.out.println("past the screen limit at: " + currentScreenNum);
     }
 
     public void failureClick(View view){
-        //TODO handle error click
+        if(config.getProgressionRule().equals(Defaults.PROGRESSION_RULE.PROGRESS_ON_BUTTON_PRESS)){
+            successClick(view);
+        }
     }
+
+           //TODO handle any screen press
 }

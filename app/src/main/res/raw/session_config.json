@@ -10,7 +10,8 @@
               "xPosition" : "10",
               "yPosition" : "10",
               "rotation" : "0",
-              "text" : "Button WOOOOOOO"
+              "text" : "Button 1",
+              "buttonEvent" : "success"
             },
             {
               "height" : "100",
@@ -18,7 +19,34 @@
               "xPosition" : "10",
               "yPosition" : "10",
               "rotation" : "0",
-              "text" : "Button WOOOOOOO"
+              "text" : "Button 2",
+              "buttonEvent" : "failure"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rowConfigs" : [
+        {
+          "buttonConfigs" : [
+            {
+              "height" : "100",
+              "width" : "200",
+              "xPosition" : "10",
+              "yPosition" : "10",
+              "rotation" : "0",
+              "text" : "Button 3",
+              "buttonEvent" : "success"
+            },
+            {
+              "height" : "100",
+              "width" : "200",
+              "xPosition" : "10",
+              "yPosition" : "10",
+              "rotation" : "0",
+              "text" : "Button 4",
+              "buttonEvent" : "failure"
             }
           ]
         }

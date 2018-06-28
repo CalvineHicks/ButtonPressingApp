@@ -9,6 +9,7 @@ import java.util.List;
 public class SessionConfig implements Serializable{
 
     private List<ScreenConfig> screenConfigs = null;
+    private Defaults.PROGRESSION_RULE progressionRule = Defaults.DEFAULT_PROGRESSION_RULE;
 
     public static SessionConfig fromJson(String s) {
         return new Gson().fromJson(s, SessionConfig.class);
@@ -22,5 +23,14 @@ public class SessionConfig implements Serializable{
 
     public void setScreenConfigs(List<ScreenConfig> screenConfigs) {
         this.screenConfigs = screenConfigs;
+    }
+
+
+    public Defaults.PROGRESSION_RULE getProgressionRule() {
+        return progressionRule;
+    }
+
+    public void setProgressionRule(Defaults.PROGRESSION_RULE progressionRule) {
+        this.progressionRule = progressionRule;
     }
 }
