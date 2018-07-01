@@ -10,8 +10,12 @@
               "xPosition" : "10",
               "yPosition" : "10",
               "rotation" : "0",
-              "text" : "Button 1",
-              "buttonEvent" : "success"
+              "text" : "Success",
+              "buttonEvent" : "success",
+              "backgroundColorR" : 67,
+              "backgroundColorG" : 183,
+              "backgroundColorB" : 38,
+              "areaBottom" : 1500
             },
             {
               "height" : "100",
@@ -19,7 +23,31 @@
               "xPosition" : "10",
               "yPosition" : "10",
               "rotation" : "0",
-              "text" : "Button 2",
+              "text" : "Press Me",
+              "buttonEvent" : "failure"
+            }
+          ]
+        },
+        {},
+        {},
+        {
+          "buttonConfigs" : [
+            {
+              "height" : "100",
+              "width" : "200",
+              "xPosition" : "10",
+              "yPosition" : "10",
+              "rotation" : "0",
+              "text" : "Press Me",
+              "buttonEvent" : "failure"
+            },
+            {
+              "height" : "100",
+              "width" : "200",
+              "xPosition" : "10",
+              "yPosition" : "10",
+              "rotation" : "0",
+              "text" : "Press Me",
               "buttonEvent" : "failure"
             }
           ]
@@ -36,7 +64,7 @@
               "xPosition" : "10",
               "yPosition" : "10",
               "rotation" : "0",
-              "text" : "Button 3",
+              "text" : "Success",
               "buttonEvent" : "success"
             },
             {
@@ -45,7 +73,7 @@
               "xPosition" : "10",
               "yPosition" : "10",
               "rotation" : "0",
-              "text" : "Button 4",
+              "text" : "Press Me",
               "buttonEvent" : "failure"
             }
           ]

@@ -15,7 +15,16 @@ public class ButtonConfig implements Serializable{
 
     //Text and Styling
     private String text = Defaults.DEFAULT_BUTTON_TEXT;
-    private int backgroundColor = Defaults.DEFAULT_BUTTON_COLOR;
+    private int backgroundColorR = Defaults.DEFAULT_BUTTON_COLOR_R;
+    private int backgroundColorG = Defaults.DEFAULT_BUTTON_COLOR_G;
+    private int backgroundColorB = Defaults.DEFAULT_BUTTON_COLOR_B;
+
+
+    //Clickable Area
+    private int areaTop = Defaults.CLICKABLE_AREA_TOP;
+    private int areaBottom = Defaults.CLICKABLE_AREA_BOTTOM;
+    private int areaLeft = Defaults.CLICKABLE_AREA_LEFT;
+    private int areaRight = Defaults.CLICKABLE_AREA_RIGHT;
 
     public Integer getHeight() {
         return height;
@@ -65,12 +74,60 @@ public class ButtonConfig implements Serializable{
         this.text = text;
     }
 
-    public int getBackgroundColor() {
-        return backgroundColor;
+    public int getBackgroundColorR() {
+        return backgroundColorR;
     }
 
-    public void setBackgroundColor(int backgroundColor) {
-        this.backgroundColor = backgroundColor;
+    public void setBackgroundColorR(int backgroundColorR) {
+        this.backgroundColorR = backgroundColorR;
+    }
+
+    public int getBackgroundColorG() {
+        return backgroundColorG;
+    }
+
+    public void setBackgroundColorG(int backgroundColorG) {
+        this.backgroundColorG = backgroundColorG;
+    }
+
+    public int getBackgroundColorB() {
+        return backgroundColorB;
+    }
+
+    public void setBackgroundColorB(int backgroundColorB) {
+        this.backgroundColorB = backgroundColorB;
+    }
+
+    public int getAreaTop() {
+        return areaTop;
+    }
+
+    public void setAreaTop(int areaTop) {
+        this.areaTop = areaTop;
+    }
+
+    public int getAreaBottom() {
+        return areaBottom;
+    }
+
+    public void setAreaBottom(int areaBottom) {
+        this.areaBottom = areaBottom;
+    }
+
+    public int getAreaLeft() {
+        return areaLeft;
+    }
+
+    public void setAreaLeft(int areaLeft) {
+        this.areaLeft = areaLeft;
+    }
+
+    public int getAreaRight() {
+        return areaRight;
+    }
+
+    public void setAreaRight(int areaRight) {
+        this.areaRight = areaRight;
     }
 
     //Button Events

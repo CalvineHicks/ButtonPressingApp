@@ -14,7 +14,7 @@ import com.medical.anschutz.cu.buttonpressingapp.model.ButtonConfig;
 import com.medical.anschutz.cu.buttonpressingapp.model.ExtendedButton;
 import com.medical.anschutz.cu.buttonpressingapp.model.ScreenConfig;
 import com.medical.anschutz.cu.buttonpressingapp.model.SessionConfig;
-import com.medical.anschutz.cu.buttonpressingapp.util.ButtonGenerator;
+import com.medical.anschutz.cu.buttonpressingapp.model.SessionStatistics;
 import com.medical.anschutz.cu.buttonpressingapp.model.Defaults;
 
 import java.util.List;
@@ -23,6 +23,8 @@ public class Session extends AppCompatActivity {
 
     private int currentScreenNum = 0;
     private SessionConfig config = null;
+    private SessionStatistics stats = new SessionStatistics();
+    private long startTime = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +42,7 @@ public class Session extends AppCompatActivity {
 
         //iterate through screens one at a time, start at first screen
         generateScreen(0);
+        this.startTime = System.currentTimeMillis();
 
     }
 
@@ -70,6 +73,7 @@ public class Session extends AppCompatActivity {
                     }
                 });
                 buttonRow.addView(button);
+
             }
             buttonContainer.addView(buttonRow);
         }
@@ -79,8 +83,12 @@ public class Session extends AppCompatActivity {
             currentScreenNum += 1;
             generateScreen(currentScreenNum);
         }
-        else
-            System.out.println("past the screen limit at: " + currentScreenNum);
+        else {
+            Intent myIntent = new Intent(this, SessionComplete.class);
+            this.stats.setTimeToComplete(System.currentTimeMillis() - this.startTime);
+            myIntent.putExtra("SessionStatistics", stats);
+            this.startActivity(myIntent);
+        }
     }
 
     public void failureClick(View view){

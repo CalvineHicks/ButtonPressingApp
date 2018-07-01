@@ -25,9 +25,17 @@ public class Defaults {
     public static final int DEFAULT_BUTTON_Y_POSITION = 0;
     public static final int DEFAULT_BUTTON_ROTATION = 0;
 
+    //clickable area
+    public static final int CLICKABLE_AREA_TOP = 0;
+    public static final int CLICKABLE_AREA_BOTTOM = 0;
+    public static final int CLICKABLE_AREA_LEFT = 0;
+    public static final int CLICKABLE_AREA_RIGHT = 0;
+
     //text settings
     public static final String DEFAULT_BUTTON_TEXT = "TEXT";
-    public static final int DEFAULT_BUTTON_COLOR = Color.GRAY;
+    public static final int DEFAULT_BUTTON_COLOR_R = 185;
+    public static final int DEFAULT_BUTTON_COLOR_G = 185;
+    public static final int DEFAULT_BUTTON_COLOR_B = 185;
 
     //button events
     public static final String DEFAULT_BUTTON_CLICK_EVENT = "success";

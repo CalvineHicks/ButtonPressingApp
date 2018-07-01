@@ -1,6 +1,7 @@
 package com.medical.anschutz.cu.buttonpressingapp.model;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.support.v7.widget.AppCompatButton;
 import android.util.AttributeSet;
@@ -12,7 +13,7 @@ public class ExtendedButton extends AppCompatButton {
     public String eventType = Defaults.DEFAULT_BUTTON_CLICK_EVENT;
     public ExtendedButton(Context context, View view, ButtonConfig config) {
         super(context);
-        this.setBackgroundColor(config.getBackgroundColor());
+        this.setBackgroundColor(Color.rgb(config.getBackgroundColorR(), config.getBackgroundColorG(), config.getBackgroundColorB()));
         //height
         this.setHeight(config.getHeight());
         //width
@@ -27,6 +28,7 @@ public class ExtendedButton extends AppCompatButton {
         this.eventType = config.getButtonEvent();
     }
 
+    //This isnt working how we expect it too. Something is off.
     public void setClickableArea(View view){
         final Button b = this;
         view.post(new Runnable() {
