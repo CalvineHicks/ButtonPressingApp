@@ -44,6 +44,7 @@ public class ExtendedButton extends AppCompatButton {
         this.setClickableArea(view);
         this.eventType = config.getButtonEvent();
         //code for setting background image (overrides color/size)
+        //if the image is not found the button will fall back to using its config without the image file
         if(null!= config.getImage()){
             String uri = "@drawable/"+config.getImage();  // where myresource (without the extension) is the file
 
@@ -64,9 +65,7 @@ public class ExtendedButton extends AppCompatButton {
                 this.setBackgroundDrawable(d);
             }
             catch(Exception e){
-                System.out.println(e.getStackTrace());
-                System.out.println(e.getCause());
-                System.out.println(e.getMessage());
+                e.printStackTrace();
             }
 
 

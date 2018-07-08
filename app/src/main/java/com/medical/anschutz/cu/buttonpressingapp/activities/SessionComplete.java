@@ -1,6 +1,7 @@
 package com.medical.anschutz.cu.buttonpressingapp.activities;
 
 import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Environment;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.gson.GsonBuilder;
 import com.medical.anschutz.cu.buttonpressingapp.R;
 import com.medical.anschutz.cu.buttonpressingapp.model.SessionStatistics;
 
@@ -35,34 +37,25 @@ public class SessionComplete extends AppCompatActivity {
     }
 
     public void downloadClick(View v) {
-
-        //eventually this will download the file to /downloads folder as if it were donloaded from the internet
-        //right now when you go to open it says file not found :(
-        /*File dir = new File("//sdcard//Download//");
-        dir.mkdirs();
-
-        File file = new File(dir, "SessionResults.txt");
-
-        try
-        {
-            FileOutputStream fOut = new FileOutputStream(file);
-            OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
-            myOutWriter.append("this is some junk");
-
-            myOutWriter.close();
-
-            fOut.flush();
-            fOut.close();
+    //get path to reports folder
+        File sdCard = Environment.getExternalStorageDirectory();
+        File directory = new File (sdCard.getAbsolutePath() + "/ButtonPressingApp/reports");
+        //if the reports dir does not exist, create it
+        if (!directory.exists()) {
+            directory.mkdirs();
         }
-        catch (IOException e)
-        {
-            Log.e("Exception", "File write failed: " + e.toString());
+        //convert our report to a JSON string for now
+        String report = new GsonBuilder().create().toJson(stats, SessionStatistics.class);
+        //create the file and close output stream
+        File file = new File(directory, "sessionReport.txt");
+        try {
+            FileOutputStream stream = new FileOutputStream(file);
+            stream.write(report.getBytes());
+            stream.close();
         }
-        file.mkdirs();
-
-        DownloadManager downloadManager = (DownloadManager) this.getSystemService(DOWNLOAD_SERVICE);
-
-        downloadManager.addCompletedDownload(file.getName(), file.getName(), true, "text/plain",file.getAbsolutePath(),file.length(),true);*/
+        catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void doneClick(View v){

@@ -54,8 +54,7 @@
               "backgroundColorR" : 67,
               "backgroundColorG" : 183,
               "backgroundColorB" : 38,
-              "areaBottom" : 1500,
-              "image" : "circle2"
+              "areaBottom" : 1500
             },
             {
               "height" : "100",

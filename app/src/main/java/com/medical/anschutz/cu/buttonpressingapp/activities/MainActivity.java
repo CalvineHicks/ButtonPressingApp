@@ -56,43 +56,48 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String getConfigFileString() throws IOException {
-        //InputStream is = getResources().openRawResource(R.raw.session_config);
+        //get config directory on sdcard
         File sdCard = Environment.getExternalStorageDirectory();
-
         File directory = new File (sdCard.getAbsolutePath() + "/ButtonPressingApp");
-
-        File file = new File(directory, "session_config.json"); //or any other format supported
-        FileInputStream is = null;
+        //if our app directory does not exist, create it
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+        //get the config file from the directory
+        File file = new File(directory, "session_config.json");
+        InputStream is = null;
         Writer writer = new StringWriter();
-        try {
-            is = new FileInputStream(file);
-            char[] buffer = new char[1024];
+        //if the file does not exist fall back to the internal one
+        if (file.exists()) {
             try {
-                Reader reader = null;
-                try {
-                    reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                int n;
-                while ((n = reader.read(buffer)) != -1) {
-                    writer.write(buffer, 0, n);
-                }
-            } catch (IOException e) {
+                is = new FileInputStream(file);
+            } catch (Exception e) {
                 e.printStackTrace();
-            } finally {
-                is.close();
             }
         }
-        catch(Exception e){
-            System.out.println(e.getStackTrace());
-            System.out.println(e.getCause());
-            System.out.println(e.getMessage());
+        else {
+            is = getResources().openRawResource(R.raw.session_config);
         }
 
-
+        //read the file into an internal var
+        char[] buffer = new char[1024];
+        try {
+            Reader reader = null;
+            try {
+                reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            int n;
+            while ((n = reader.read(buffer)) != -1) {
+                writer.write(buffer, 0, n);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            is.close();
+        }
         String jsonString = writer.toString();
-        System.out.println(jsonString);
         return jsonString;
     }
 }
