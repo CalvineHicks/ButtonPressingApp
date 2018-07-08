@@ -10,7 +10,8 @@
               "xPosition" : "10",
               "yPosition" : "10",
               "rotation" : "0",
-              "text" : "Success",
+              "text" : "small",
+              "gravity" : "center center",
               "buttonEvent" : "success",
               "backgroundColorR" : 67,
               "backgroundColorG" : 183,
@@ -23,7 +24,8 @@
               "xPosition" : "10",
               "yPosition" : "10",
               "rotation" : "0",
-              "text" : "Press Me",
+              "text" : "butn",
+              "gravity" : "center center",
               "buttonEvent" : "failure"
             }
           ]
