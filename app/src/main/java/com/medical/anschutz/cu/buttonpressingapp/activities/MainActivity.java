@@ -1,5 +1,10 @@
 package com.medical.anschutz.cu.buttonpressingapp.activities;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +17,7 @@ import com.medical.anschutz.cu.buttonpressingapp.services.dataTransformers;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -50,25 +56,40 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String getConfigFileString() throws IOException {
-        InputStream is = getResources().openRawResource(R.raw.session_config);
+        //InputStream is = getResources().openRawResource(R.raw.session_config);
+        File sdCard = Environment.getExternalStorageDirectory();
+
+        File directory = new File (sdCard.getAbsolutePath() + "/ButtonPressingApp");
+
+        File file = new File(directory, "session_config.json"); //or any other format supported
+        FileInputStream is = null;
         Writer writer = new StringWriter();
-        char[] buffer = new char[1024];
         try {
-            Reader reader = null;
+            is = new FileInputStream(file);
+            char[] buffer = new char[1024];
             try {
-                reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-            } catch (UnsupportedEncodingException e) {
+                Reader reader = null;
+                try {
+                    reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                int n;
+                while ((n = reader.read(buffer)) != -1) {
+                    writer.write(buffer, 0, n);
+                }
+            } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
+                is.close();
             }
-            int n;
-            while ((n = reader.read(buffer)) != -1) {
-                writer.write(buffer, 0, n);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            is.close();
         }
+        catch(Exception e){
+            System.out.println(e.getStackTrace());
+            System.out.println(e.getCause());
+            System.out.println(e.getMessage());
+        }
+
 
         String jsonString = writer.toString();
         System.out.println(jsonString);

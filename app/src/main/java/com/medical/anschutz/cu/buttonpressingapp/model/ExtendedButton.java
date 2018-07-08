@@ -1,9 +1,13 @@
 package com.medical.anschutz.cu.buttonpressingapp.model;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Environment;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatImageButton;
 import android.util.AttributeSet;
@@ -15,6 +19,8 @@ import com.medical.anschutz.cu.buttonpressingapp.BuildConfig;
 import com.medical.anschutz.cu.buttonpressingapp.R;
 
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 
 public class ExtendedButton extends AppCompatButton {
@@ -42,8 +48,28 @@ public class ExtendedButton extends AppCompatButton {
             String uri = "@drawable/"+config.getImage();  // where myresource (without the extension) is the file
 
             int imageResource = getResources().getIdentifier(uri, null, BuildConfig.APPLICATION_ID);
-            Drawable d = getResources().getDrawable(imageResource);
-            this.setBackgroundDrawable(d);
+
+
+            File sdCard = Environment.getExternalStorageDirectory();
+
+            File directory = new File (sdCard.getAbsolutePath() + "/ButtonPressingApp/images");
+
+            File file = new File(directory, config.getImage()); //or any other format supported
+            FileInputStream streamIn = null;
+            try {
+                 streamIn = new FileInputStream(file);
+                Bitmap bitmap = BitmapFactory.decodeStream(streamIn); //This gets the image
+                streamIn.close();
+                Drawable d = new BitmapDrawable(getResources(), bitmap);
+                this.setBackgroundDrawable(d);
+            }
+            catch(Exception e){
+                System.out.println(e.getStackTrace());
+                System.out.println(e.getCause());
+                System.out.println(e.getMessage());
+            }
+
+
         }
         //
     }
