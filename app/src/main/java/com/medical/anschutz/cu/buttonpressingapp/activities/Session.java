@@ -5,7 +5,10 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
@@ -54,12 +57,10 @@ public class Session extends AppCompatActivity {
         //add button rows and butttons
         List<ScreenConfig.RowConfig> rowConfigs = screenConfig.getRowConfigs();
         for(ScreenConfig.RowConfig rowConfig : rowConfigs){
-            TableRow buttonRow = new TableRow(this);
-            buttonRow.setMinimumHeight(screenConfig.getButtonRowMinHeight());
-            TableRow.LayoutParams lp = new TableRow.LayoutParams(
-                    TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
-            //set's margin for a set of columns
-            lp.setMargins(0, 0, 0, 0);
+            LinearLayout buttonRow = new LinearLayout(this);
+            //sets horix orientation
+            buttonRow.setOrientation(LinearLayout.HORIZONTAL);
+            buttonRow.setMinimumHeight(rowConfig.getButtonRowMinHeight());
             for(ButtonConfig buttonConfig : rowConfig.getButtonConfigs()){
                 final ExtendedButton button = new ExtendedButton(this, buttonRow, buttonConfig);
                 button.setOnClickListener(new View.OnClickListener(){
@@ -75,9 +76,37 @@ public class Session extends AppCompatActivity {
                 buttonRow.addView(button);
 
             }
-            buttonContainer.addView(buttonRow);
+            //TODO : figure out scrolling (do we need to account for scrolling???
+            if(rowConfig.isScrollEnabled()) {
+                ScrollView scrollView = new ScrollView(this);
+                scrollView.setFillViewport(true);
+                scrollView.addView(buttonRow);
+                scrollView.setHorizontalScrollBarEnabled(true);
+                buttonContainer.addView(scrollView);
+            }
+            else {
+                //TODO: button row is not wrapping content either...
+                buttonRow.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                buttonContainer.addView(buttonRow);
+            }
+        }
+        this.recursiveLoopChildren(buttonContainer);
+    }
+
+    public void recursiveLoopChildren(ViewGroup parent) {
+        for (int i = 0; i < parent.getChildCount(); i++) {
+            final View child = parent.getChildAt(i);
+            if (child instanceof ViewGroup) {
+                recursiveLoopChildren((ViewGroup) child);
+                child.invalidate();
+            } else {
+                if (child != null) {
+                    child.invalidate();
+                }
+            }
         }
     }
+
     public void successClick(View view){
         if(config.getScreenConfigs().size() > (currentScreenNum + 1)) {
             currentScreenNum += 1;
