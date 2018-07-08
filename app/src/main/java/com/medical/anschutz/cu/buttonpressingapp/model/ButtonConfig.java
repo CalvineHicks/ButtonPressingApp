@@ -22,6 +22,7 @@ public class ButtonConfig implements Serializable{
     private int backgroundColorR = Defaults.DEFAULT_BUTTON_COLOR_R;
     private int backgroundColorG = Defaults.DEFAULT_BUTTON_COLOR_G;
     private int backgroundColorB = Defaults.DEFAULT_BUTTON_COLOR_B;
+    private String image = null;
 
 
     //Clickable Area
@@ -136,6 +137,14 @@ public class ButtonConfig implements Serializable{
 
     public void setBackgroundColorB(int backgroundColorB) {
         this.backgroundColorB = backgroundColorB;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public int getAreaTop() {

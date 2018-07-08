@@ -10,6 +10,8 @@ import android.util.AttributeSet;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.widget.Button;
+
+import com.medical.anschutz.cu.buttonpressingapp.BuildConfig;
 import com.medical.anschutz.cu.buttonpressingapp.R;
 
 
@@ -36,8 +38,14 @@ public class ExtendedButton extends AppCompatButton {
         this.setClickableArea(view);
         this.eventType = config.getButtonEvent();
         //code for setting background image (overrides color/size)
-        //Drawable d = getResources().getDrawable(R.drawable.circle2);
-        //this.setBackgroundDrawable(d);
+        if(null!= config.getImage()){
+            String uri = "@drawable/"+config.getImage();  // where myresource (without the extension) is the file
+
+            int imageResource = getResources().getIdentifier(uri, null, BuildConfig.APPLICATION_ID);
+            Drawable d = getResources().getDrawable(imageResource);
+            this.setBackgroundDrawable(d);
+        }
+        //
     }
 
     //This isnt working how we expect it too. Something is off.

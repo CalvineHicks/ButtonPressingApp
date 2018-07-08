@@ -19,6 +19,7 @@ public class Defaults {
     public static final int DEFAULT_SCREEN_BUTTON_ROW_MAX_HEIGHT = 200;
     public static final int DEFAULT_SCREEN_BUTTON_ROW_MIN_HEIGHT = 150;
     public static final int DEFAULT_SCREEN_BUTTON_ROW_MAX_WIDTH = 600;
+    public static final boolean DEFAULT_SCREEN_BUTTON_ROW_SCROLL_ENABLED = false;
     public static final int DEFAULT_SCREEN_SUCCESS_X_POSITION = 0;
     public static final int DEFAULT_SCREEN_SUCCESS_Y_POSITION = 0;
 

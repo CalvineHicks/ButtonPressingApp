@@ -8,10 +8,6 @@ import java.util.List;
 public class ScreenConfig implements Serializable{
     private int buttonColumns = Defaults.DEFAULT_SCREEN_BUTTON_COLUMNS;
     private int buttonRows = Defaults.DEFAULT_SCREEN_BUTTON_ROWS;
-    private int buttonRowMaxHeight = Defaults.DEFAULT_SCREEN_BUTTON_ROW_MAX_HEIGHT;
-
-    private int buttonRowMinHeight = Defaults.DEFAULT_SCREEN_BUTTON_ROW_MIN_HEIGHT;
-    private int buttonRowMaxWidth = Defaults.DEFAULT_SCREEN_BUTTON_ROW_MAX_WIDTH;
 
     private int buttonSuccessX = Defaults.DEFAULT_SCREEN_SUCCESS_X_POSITION;
     private int buttonSuccessY = Defaults.DEFAULT_SCREEN_SUCCESS_Y_POSITION;
@@ -34,29 +30,6 @@ public class ScreenConfig implements Serializable{
         this.buttonRows = buttonRows;
     }
 
-    public int getButtonRowMaxHeight() {
-        return buttonRowMaxHeight;
-    }
-
-    public void setButtonRowMaxHeight(int buttonRowMaxHeight) {
-        this.buttonRowMaxHeight = buttonRowMaxHeight;
-    }
-
-    public int getButtonRowMinHeight() {
-        return buttonRowMinHeight;
-    }
-
-    public void setButtonRowMinHeight(int buttonRowMinHeight) {
-        this.buttonRowMinHeight = buttonRowMinHeight;
-    }
-
-    public int getButtonRowMaxWidth() {
-        return buttonRowMaxWidth;
-    }
-
-    public void setButtonRowMaxWidth(int buttonRowMaxWidth) {
-        this.buttonRowMaxWidth = buttonRowMaxWidth;
-    }
 
     public int getButtonSuccessX() {
         return buttonSuccessX;
@@ -86,6 +59,37 @@ public class ScreenConfig implements Serializable{
 
     public class RowConfig implements Serializable {
         private List<ButtonConfig> buttonConfigs = null;
+        private int buttonRowMaxHeight = Defaults.DEFAULT_SCREEN_BUTTON_ROW_MAX_HEIGHT;
+
+        private int buttonRowMinHeight = Defaults.DEFAULT_SCREEN_BUTTON_ROW_MIN_HEIGHT;
+        private int buttonRowMaxWidth = Defaults.DEFAULT_SCREEN_BUTTON_ROW_MAX_WIDTH;
+
+        private boolean scrollEnabled = Defaults.DEFAULT_SCREEN_BUTTON_ROW_SCROLL_ENABLED;
+
+
+        public int getButtonRowMaxHeight() {
+            return buttonRowMaxHeight;
+        }
+
+        public void setButtonRowMaxHeight(int buttonRowMaxHeight) {
+            this.buttonRowMaxHeight = buttonRowMaxHeight;
+        }
+
+        public int getButtonRowMinHeight() {
+            return buttonRowMinHeight;
+        }
+
+        public void setButtonRowMinHeight(int buttonRowMinHeight) {
+            this.buttonRowMinHeight = buttonRowMinHeight;
+        }
+
+        public int getButtonRowMaxWidth() {
+            return buttonRowMaxWidth;
+        }
+
+        public void setButtonRowMaxWidth(int buttonRowMaxWidth) {
+            this.buttonRowMaxWidth = buttonRowMaxWidth;
+        }
 
         public List<ButtonConfig> getButtonConfigs() {
             if(buttonConfigs == null)
@@ -95,6 +99,14 @@ public class ScreenConfig implements Serializable{
 
         public void setButtonConfigs(List<ButtonConfig> buttonConfigs) {
             this.buttonConfigs = buttonConfigs;
+        }
+
+        public boolean isScrollEnabled() {
+            return scrollEnabled;
+        }
+
+        public void setScrollEnabled(boolean scrollEnabled) {
+            this.scrollEnabled = scrollEnabled;
         }
     }
 }
