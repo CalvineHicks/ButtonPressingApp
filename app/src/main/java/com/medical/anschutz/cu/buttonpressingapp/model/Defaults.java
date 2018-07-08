@@ -1,6 +1,11 @@
 package com.medical.anschutz.cu.buttonpressingapp.model;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
+import android.view.Gravity;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Defaults {
 
@@ -33,6 +38,8 @@ public class Defaults {
 
     //text settings
     public static final String DEFAULT_BUTTON_TEXT = "TEXT";
+    public static final int DEFAULT_BUTTON_TEXT_STYLE = Typeface.NORMAL;
+    public static final String DEFAULT_BUTTON_TEXT_GRAVITY = "center center";
     public static final int DEFAULT_BUTTON_COLOR_R = 185;
     public static final int DEFAULT_BUTTON_COLOR_G = 185;
     public static final int DEFAULT_BUTTON_COLOR_B = 185;

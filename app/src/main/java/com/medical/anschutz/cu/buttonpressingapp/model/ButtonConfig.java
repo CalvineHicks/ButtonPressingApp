@@ -1,8 +1,10 @@
 package com.medical.anschutz.cu.buttonpressingapp.model;
 
 import android.graphics.Color;
+import android.view.Gravity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class ButtonConfig implements Serializable{
 
@@ -15,6 +17,8 @@ public class ButtonConfig implements Serializable{
 
     //Text and Styling
     private String text = Defaults.DEFAULT_BUTTON_TEXT;
+    private int style = Defaults.DEFAULT_BUTTON_TEXT_STYLE;  //sets bold, italic etc
+    private String gravity = Defaults.DEFAULT_BUTTON_TEXT_GRAVITY;
     private int backgroundColorR = Defaults.DEFAULT_BUTTON_COLOR_R;
     private int backgroundColorG = Defaults.DEFAULT_BUTTON_COLOR_G;
     private int backgroundColorB = Defaults.DEFAULT_BUTTON_COLOR_B;
@@ -66,6 +70,7 @@ public class ButtonConfig implements Serializable{
         this.rotation = rotation;
     }
 
+    //Button Text and Text Styling
     public String getText() {
         return text;
     }
@@ -73,6 +78,41 @@ public class ButtonConfig implements Serializable{
     public void setText(String text) {
         this.text = text;
     }
+
+    public int getStyle() {
+        return style;
+    }
+
+    public void setStyle(int style) {
+        this.style = style;
+    }
+
+    public int convertStringToGravity(String gravity) {
+        int gravityInt = Gravity.NO_GRAVITY;
+        String[] gravityParams = gravity.split("\\s+");
+        switch (gravityParams[0]) {
+            case "center" : gravityInt = Gravity.CENTER_VERTICAL;
+                break;
+            case "top" : gravityInt = Gravity.TOP;
+                break;
+            case "bottom" : gravityInt = Gravity.BOTTOM;
+                break;
+        }
+        switch (gravityParams[1]) {
+            case "center" : gravityInt = gravityInt | Gravity.CENTER_HORIZONTAL;
+                break;
+            case "left" : gravityInt = gravityInt | Gravity.LEFT;
+                break;
+            case "right" : gravityInt = gravityInt | Gravity.RIGHT;
+                break;
+        }
+        return gravityInt;
+    }
+
+    public int getGravity() {
+        return convertStringToGravity(gravity);
+    }
+    public void setGravity(String gravity) { this.gravity = gravity; }
 
     public int getBackgroundColorR() {
         return backgroundColorR;
