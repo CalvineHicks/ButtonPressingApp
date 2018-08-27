@@ -2,9 +2,12 @@ package com.medical.anschutz.cu.buttonpressingapp.activities;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -28,6 +31,7 @@ public class Session extends AppCompatActivity {
     private SessionConfig config = null;
     private SessionStatistics stats = new SessionStatistics();
     private long startTime = 0;
+    private long screenStartTime = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +57,7 @@ public class Session extends AppCompatActivity {
         ScreenConfig screenConfig = config.getScreenConfigs().get(screenNum);
         TableLayout buttonContainer = findViewById(R.id.buttonContainer);
         buttonContainer.removeAllViews();
+        final SessionStatistics.ScreenStatistics screenStats = this.stats.addScreen(screenNum);
 
         //add button rows and butttons
         List<ScreenConfig.RowConfig> rowConfigs = screenConfig.getRowConfigs();
@@ -63,14 +68,46 @@ public class Session extends AppCompatActivity {
             buttonRow.setMinimumHeight(rowConfig.getButtonRowMinHeight());
             for(ButtonConfig buttonConfig : rowConfig.getButtonConfigs()){
                 final ExtendedButton button = new ExtendedButton(this, buttonRow, buttonConfig);
-                button.setOnClickListener(new View.OnClickListener(){
+               /* button.setOnClickListener(new View.OnClickListener(){
                     public void onClick(View v) {
-                        if(button.eventType.equals("success")){
-                            successClick(v);
+
+                    }
+                });*/
+                button.setOnTouchListener(new View.OnTouchListener() {
+                    Rect rect = null;
+                    SessionStatistics.ScreenStatistics.ClickAttempt click = null;
+                    long clickStartTime = 0;
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+
+                        switch (event.getAction()) {
+                            case MotionEvent.ACTION_DOWN:
+                                // PRESSED
+                                rect = new Rect(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
+                                click = screenStats.addClickAttempt(event.getX(), event.getY());
+                                click.setPressure(event.getPressure());
+                                clickStartTime = System.currentTimeMillis();
+                                return false; // if you want to handle the touch event
+                            case MotionEvent.ACTION_UP:
+                                // RELEASED
+                                click.setClickEndLocationX(event.getX());
+                                click.setClickEndLocationY(event.getY());
+                                click.setTimeToComplete(System.currentTimeMillis() - clickStartTime);
+                                if (null != rect && !rect.contains(v.getLeft() + (int) event.getX(), v.getTop() + (int) event.getY())) {
+
+                                } else {
+                                    v.performClick();
+                                    if (button.eventType.equals("success")) {
+                                        successClick(v, screenStats);
+                                        return false;
+                                    } else if (button.eventType.equals("failure")) {
+                                        failureClick(v, screenStats);
+                                        return false;
+                                    }
+                                }
+
                         }
-                        else if(button.eventType.equals("failure")){
-                            failureClick(v);
-                        }
+                        return false;
                     }
                 });
                 buttonRow.addView(button);
@@ -90,7 +127,8 @@ public class Session extends AppCompatActivity {
                 buttonContainer.addView(buttonRow);
             }
         }
-        this.recursiveLoopChildren(buttonContainer);
+        this.screenStartTime = System.currentTimeMillis();
+       // this.recursiveLoopChildren(buttonContainer);
     }
 
     public void recursiveLoopChildren(ViewGroup parent) {
@@ -107,7 +145,8 @@ public class Session extends AppCompatActivity {
         }
     }
 
-    public void successClick(View view){
+    public void successClick(View view, SessionStatistics.ScreenStatistics screenStats){
+        screenStats.setTimeToComplete(System.currentTimeMillis() - this.screenStartTime);
         if(config.getScreenConfigs().size() > (currentScreenNum + 1)) {
             currentScreenNum += 1;
             generateScreen(currentScreenNum);
@@ -118,11 +157,14 @@ public class Session extends AppCompatActivity {
             myIntent.putExtra("SessionStatistics", stats);
             this.startActivity(myIntent);
         }
+        //TODO : once the success button is clicked OR if we reach the failure overwritre, calculate each click attempts distance from the success.
     }
 
-    public void failureClick(View view){
+    public void failureClick(View view, SessionStatistics.ScreenStatistics screenStats){
+        screenStats.incrementFailues();
         if(config.getProgressionRule().equals(Defaults.PROGRESSION_RULE.PROGRESS_ON_BUTTON_PRESS)){
-            successClick(view);
+            screenStats.setFailureLimitReached(true);
+            successClick(view, screenStats);
         }
     }
 

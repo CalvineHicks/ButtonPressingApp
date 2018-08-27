@@ -1,5 +1,6 @@
 package com.medical.anschutz.cu.buttonpressingapp.activities;
 
+import android.app.ActionBar;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
@@ -9,10 +10,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.GsonBuilder;
 import com.medical.anschutz.cu.buttonpressingapp.R;
+import com.medical.anschutz.cu.buttonpressingapp.model.ScreenConfig;
 import com.medical.anschutz.cu.buttonpressingapp.model.SessionStatistics;
 
 import java.io.File;
@@ -34,6 +38,23 @@ public class SessionComplete extends AppCompatActivity {
 
         TextView textView = (TextView) findViewById(R.id.totalTime);
         textView.setText(textView.getText() + stats.getTimeToCompleteFormatted());
+
+        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.screenReport);
+        for(SessionStatistics.ScreenStatistics screenStats : stats.getScreenStatistics()){
+            TextView t = new TextView(this);
+            String screenReport = "Screen #"+screenStats.getScreenNum();
+            screenReport+="\n Time To Complete : "+screenStats.getTimeToCompleteFormatted();
+            screenReport+="\n Number of Failures : "+screenStats.getFailures();
+            int i = 0;
+            for(SessionStatistics.ScreenStatistics.ClickAttempt clickAttempt: screenStats.getClickAttempts()){
+                i++;
+                screenReport += "\n Click#"+i;
+                screenReport+="\n\t Click Duration : "+clickAttempt.getTimeToCompleteFormatted();
+                screenReport += "\n\t Pressure : "+clickAttempt.getPressure();
+            }
+            t.setText(screenReport);
+            linearLayout.addView(t);
+        }
     }
 
     public void downloadClick(View v) {
@@ -46,6 +67,7 @@ public class SessionComplete extends AppCompatActivity {
         }
         //convert our report to a JSON string for now
         String report = new GsonBuilder().create().toJson(stats, SessionStatistics.class);
+        System.out.println(report);
         //create the file and close output stream
         File file = new File(directory, "sessionReport.txt");
         try {
@@ -64,3 +86,4 @@ public class SessionComplete extends AppCompatActivity {
     }
 
 }
+
