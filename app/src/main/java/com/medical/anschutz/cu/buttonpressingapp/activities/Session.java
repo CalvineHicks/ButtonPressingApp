@@ -1,19 +1,18 @@
 package com.medical.anschutz.cu.buttonpressingapp.activities;
 
+
+import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 
 import com.medical.anschutz.cu.buttonpressingapp.R;
 import com.medical.anschutz.cu.buttonpressingapp.model.ButtonConfig;
@@ -22,6 +21,7 @@ import com.medical.anschutz.cu.buttonpressingapp.model.ScreenConfig;
 import com.medical.anschutz.cu.buttonpressingapp.model.SessionConfig;
 import com.medical.anschutz.cu.buttonpressingapp.model.SessionStatistics;
 import com.medical.anschutz.cu.buttonpressingapp.model.Defaults;
+import com.medical.anschutz.cu.buttonpressingapp.services.UserIDDialogGenerator;
 
 import java.util.List;
 
@@ -32,6 +32,9 @@ public class Session extends AppCompatActivity {
     private SessionStatistics stats = new SessionStatistics();
     private long startTime = 0;
     private long screenStartTime = 0;
+    private String sessionID;
+    private UserIDDialogGenerator userIDDialgGenerator = new UserIDDialogGenerator();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,11 +49,31 @@ public class Session extends AppCompatActivity {
         else{
             System.out.println("config loaded successfully");
         }
+        userIDDialgGenerator.showGetUserIDDialog(this, "Enter an ID for this session", "Start", "Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // start button listener
+                String text = userIDDialgGenerator.inputValue.getText().toString();
+                startSession(text);
+            }
+        }, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // cancel button listener
+                Intent intent = new Intent(Session.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }
+        );
+    }
 
+    private void startSession(String sessionID) {
         //iterate through screens one at a time, start at first screen
-        generateScreen(0);
+        this.sessionID = sessionID;
+        this.stats.setSessionID(sessionID);
         this.startTime = System.currentTimeMillis();
-
+        generateScreen(0);
     }
 
     private void generateScreen(int screenNum){

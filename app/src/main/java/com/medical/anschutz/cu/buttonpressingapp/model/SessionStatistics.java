@@ -8,6 +8,7 @@ import java.util.List;
 public class SessionStatistics implements Serializable{
 
     private long timeToComplete = 0;
+    private String sessionID;
 
     public long getTimeToComplete() {
         return timeToComplete;
@@ -20,6 +21,15 @@ public class SessionStatistics implements Serializable{
 
         String time = String.format("%02d:%02d:%02d:%d", hour, minute, second, timeToComplete);
         return time;
+    }
+
+    public String getSessionID() {
+        return sessionID;
+    }
+
+
+    public void setSessionID(String sessionID) {
+        this.sessionID = sessionID;
     }
 
     public void setTimeToComplete(long timeToComplete) {

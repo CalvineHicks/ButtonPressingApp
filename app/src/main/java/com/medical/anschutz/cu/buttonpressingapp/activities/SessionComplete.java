@@ -36,8 +36,11 @@ public class SessionComplete extends AppCompatActivity {
         setContentView(R.layout.activity_session_complete);
         this.stats = (SessionStatistics) getIntent().getSerializableExtra("SessionStatistics");
 
-        TextView textView = (TextView) findViewById(R.id.totalTime);
-        textView.setText(textView.getText() + stats.getTimeToCompleteFormatted());
+        TextView sessionID = (TextView) findViewById(R.id.sessionID);
+        sessionID.setText(sessionID.getText() + stats.getSessionID());
+
+        TextView totalTime = (TextView) findViewById(R.id.totalTime);
+        totalTime.setText(totalTime.getText() + stats.getTimeToCompleteFormatted());
 
         LinearLayout linearLayout = (LinearLayout)findViewById(R.id.screenReport);
         for(SessionStatistics.ScreenStatistics screenStats : stats.getScreenStatistics()){

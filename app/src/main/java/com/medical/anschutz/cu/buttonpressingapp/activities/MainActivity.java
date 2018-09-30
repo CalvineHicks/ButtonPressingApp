@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
 
     private Button button;
     private Button button2;
-    private dataTransformers dt = new dataTransformers();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
