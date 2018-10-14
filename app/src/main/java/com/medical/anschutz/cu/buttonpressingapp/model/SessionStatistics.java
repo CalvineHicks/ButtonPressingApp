@@ -2,6 +2,7 @@ package com.medical.anschutz.cu.buttonpressingapp.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -51,6 +52,28 @@ public class SessionStatistics implements Serializable{
         return this.screenStatistics;
     }
 
+    public List<List<String>> generateCSVReport(){
+        List<List<String>> results = new ArrayList<List<String>>();
+        List<String> headers = Arrays.asList("Session ID","Screen Number","Time To Complete Screen","Attempt #",
+                "Distance From Success Center", "Pressure", "Finger Footprint");
+        results.add(headers);
+        for(ScreenStatistics s : screenStatistics){
+            for(int i = 0; i < s.getClickAttempts().size(); i++){
+                ScreenStatistics.ClickAttempt c = s.getClickAttempts().get(i);
+                List<String> screenResult = new ArrayList<String>();
+                screenResult.add(sessionID);
+                screenResult.add(Integer.toString(s.screenNum));
+                screenResult.add(s.getTimeToCompleteFormatted());
+                screenResult.add(Integer.toString(i));
+                screenResult.add(Double.toString(c.distanceFromSuccessCenter));
+                screenResult.add(Float.toString(c.pressure));
+                screenResult.add(Float.toString(c.fingerFootprint));
+                results.add(screenResult);
+            }
+        }
+        return results;
+    }
+
     public class ScreenStatistics implements Serializable{
 
         private int screenNum;
@@ -58,6 +81,9 @@ public class SessionStatistics implements Serializable{
         private boolean failureLimitReached = false;
         private List<ClickAttempt> clickAttempts = null;
         private long timeToComplete = 0;
+
+        private double successXLocation = 0;
+        private double successYLocation = 0;
 
         public long getTimeToComplete() {
             return timeToComplete;
@@ -120,15 +146,31 @@ public class SessionStatistics implements Serializable{
             return this.clickAttempts;
         }
 
+        public double getSuccessXLocation() {
+            return successXLocation;
+        }
+
+        public void setSuccessXLocation(double successXLocation) {
+            this.successXLocation = successXLocation;
+        }
+
+        public double getSuccessYLocation() {
+            return successYLocation;
+        }
+
+        public void setSuccessYLocation(double successYLocation) {
+            this.successYLocation = successYLocation;
+        }
+
         public class ClickAttempt implements Serializable{
             private float clickStartLocationY;
             private float clickStartLocationX;
             private float clickEndLocationY;
             private float clickEndLocationX;
-            private float distanceFromSuccessCenterX;
-            private float distanceFromSuccessCenterY;
+            private double distanceFromSuccessCenter;
             private float pressure;
             private long timeToComplete = 0;
+            private float fingerFootprint;
 
             public long getTimeToComplete() {
                 return timeToComplete;
@@ -180,20 +222,12 @@ public class SessionStatistics implements Serializable{
                 this.clickEndLocationX = clickEndLocationX;
             }
 
-            public float getDistanceFromSuccessCenterX() {
-                return distanceFromSuccessCenterX;
+            public double getDistanceFromSuccessCenter() {
+                return distanceFromSuccessCenter;
             }
 
-            public void setDistanceFromSuccessCenterX(float distanceFromSuccessCenterX) {
-                this.distanceFromSuccessCenterX = distanceFromSuccessCenterX;
-            }
-
-            public float getDistanceFromSuccessCenterY() {
-                return distanceFromSuccessCenterY;
-            }
-
-            public void setDistanceFromSuccessCenterY(float distanceFromSuccessCenterY) {
-                this.distanceFromSuccessCenterY = distanceFromSuccessCenterY;
+            public void setDistanceFromSuccessCenter(double distanceFromSuccessCenter) {
+                this.distanceFromSuccessCenter = distanceFromSuccessCenter;
             }
 
             public float getPressure() {
@@ -202,6 +236,14 @@ public class SessionStatistics implements Serializable{
 
             public void setPressure(float pressure) {
                 this.pressure = pressure;
+            }
+
+            public float getFingerFootprint() {
+                return fingerFootprint;
+            }
+
+            public void setFingerFootprint(float fingerFootprint) {
+                this.fingerFootprint = fingerFootprint;
             }
         }
     }

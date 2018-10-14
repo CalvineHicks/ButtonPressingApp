@@ -47,4 +47,6 @@ public class Defaults {
 
     //button events
     public static final String DEFAULT_BUTTON_CLICK_EVENT = "success";
+    public static final String SUCCESS_BUTTON_CLICK_EVENT = "success";
+    public static final String FAILURE_BUTTON_CLICK_EVENT = "failure";
 }

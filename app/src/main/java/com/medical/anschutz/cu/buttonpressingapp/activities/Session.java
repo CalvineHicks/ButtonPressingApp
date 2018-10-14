@@ -1,6 +1,7 @@
 package com.medical.anschutz.cu.buttonpressingapp.activities;
 
 
+import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,6 +25,9 @@ import com.medical.anschutz.cu.buttonpressingapp.model.Defaults;
 import com.medical.anschutz.cu.buttonpressingapp.services.UserIDDialogGenerator;
 
 import java.util.List;
+
+import static com.medical.anschutz.cu.buttonpressingapp.model.Defaults.FAILURE_BUTTON_CLICK_EVENT;
+import static com.medical.anschutz.cu.buttonpressingapp.model.Defaults.SUCCESS_BUTTON_CLICK_EVENT;
 
 public class Session extends AppCompatActivity {
 
@@ -91,11 +95,10 @@ public class Session extends AppCompatActivity {
             buttonRow.setMinimumHeight(rowConfig.getButtonRowMinHeight());
             for(ButtonConfig buttonConfig : rowConfig.getButtonConfigs()){
                 final ExtendedButton button = new ExtendedButton(this, buttonRow, buttonConfig);
-               /* button.setOnClickListener(new View.OnClickListener(){
-                    public void onClick(View v) {
-
-                    }
-                });*/
+                if (button.eventType.equals(SUCCESS_BUTTON_CLICK_EVENT)) {
+                    screenStats.setSuccessXLocation(buttonConfig.getxPosition() + buttonConfig.getWidth() / 2);
+                    screenStats.setSuccessYLocation(buttonConfig.getyPosition() + buttonConfig.getHeight() / 2);
+                }
                 button.setOnTouchListener(new View.OnTouchListener() {
                     Rect rect = null;
                     SessionStatistics.ScreenStatistics.ClickAttempt click = null;
@@ -109,6 +112,7 @@ public class Session extends AppCompatActivity {
                                 rect = new Rect(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
                                 click = screenStats.addClickAttempt(event.getX(), event.getY());
                                 click.setPressure(event.getPressure());
+                                click.setFingerFootprint(event.getPointerCount() * event.getPressure());
                                 clickStartTime = System.currentTimeMillis();
                                 return false; // if you want to handle the touch event
                             case MotionEvent.ACTION_UP:
@@ -120,10 +124,10 @@ public class Session extends AppCompatActivity {
 
                                 } else {
                                     v.performClick();
-                                    if (button.eventType.equals("success")) {
+                                    if (button.eventType.equals(SUCCESS_BUTTON_CLICK_EVENT)) {
                                         successClick(v, screenStats);
                                         return false;
-                                    } else if (button.eventType.equals("failure")) {
+                                    } else if (button.eventType.equals(FAILURE_BUTTON_CLICK_EVENT)) {
                                         failureClick(v, screenStats);
                                         return false;
                                     }
@@ -134,7 +138,6 @@ public class Session extends AppCompatActivity {
                     }
                 });
                 buttonRow.addView(button);
-
             }
             //TODO : figure out scrolling (do we need to account for scrolling???
             if(rowConfig.isScrollEnabled()) {
@@ -151,10 +154,9 @@ public class Session extends AppCompatActivity {
             }
         }
         this.screenStartTime = System.currentTimeMillis();
-       // this.recursiveLoopChildren(buttonContainer);
     }
 
-    public void recursiveLoopChildren(ViewGroup parent) {
+    private void recursiveLoopChildren(ViewGroup parent) {
         for (int i = 0; i < parent.getChildCount(); i++) {
             final View child = parent.getChildAt(i);
             if (child instanceof ViewGroup) {
@@ -168,7 +170,7 @@ public class Session extends AppCompatActivity {
         }
     }
 
-    public void successClick(View view, SessionStatistics.ScreenStatistics screenStats){
+    private void successClick(View view, SessionStatistics.ScreenStatistics screenStats){
         screenStats.setTimeToComplete(System.currentTimeMillis() - this.screenStartTime);
         if(config.getScreenConfigs().size() > (currentScreenNum + 1)) {
             currentScreenNum += 1;
@@ -181,15 +183,20 @@ public class Session extends AppCompatActivity {
             this.startActivity(myIntent);
         }
         //TODO : once the success button is clicked OR if we reach the failure overwritre, calculate each click attempts distance from the success.
+        for(SessionStatistics.ScreenStatistics.ClickAttempt attempt : screenStats.getClickAttempts()){
+            System.out.println(screenStats.getSuccessXLocation());
+            Double distance = Math.sqrt((Math.pow((screenStats.getSuccessXLocation() - attempt.getClickEndLocationX()), 2) +
+                    Math.pow((screenStats.getSuccessYLocation() - attempt.getClickEndLocationY()), 2)));
+            attempt.setDistanceFromSuccessCenter(distance);
+        }
     }
 
-    public void failureClick(View view, SessionStatistics.ScreenStatistics screenStats){
+    private void failureClick(View view, SessionStatistics.ScreenStatistics screenStats){
         screenStats.incrementFailues();
         if(config.getProgressionRule().equals(Defaults.PROGRESSION_RULE.PROGRESS_ON_BUTTON_PRESS)){
             screenStats.setFailureLimitReached(true);
             successClick(view, screenStats);
         }
     }
-
            //TODO handle any screen press
 }

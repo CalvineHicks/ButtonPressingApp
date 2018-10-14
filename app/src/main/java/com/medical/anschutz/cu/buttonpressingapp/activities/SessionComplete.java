@@ -54,6 +54,8 @@ public class SessionComplete extends AppCompatActivity {
                 screenReport += "\n Click#"+i;
                 screenReport+="\n\t Click Duration : "+clickAttempt.getTimeToCompleteFormatted();
                 screenReport += "\n\t Pressure : "+clickAttempt.getPressure();
+                screenReport += "\n\t Footprint : "+clickAttempt.getFingerFootprint();
+                screenReport += "\n\t Distance From Success Center : "+clickAttempt.getDistanceFromSuccessCenter();
             }
             t.setText(screenReport);
             linearLayout.addView(t);
@@ -70,9 +72,10 @@ public class SessionComplete extends AppCompatActivity {
         }
         //convert our report to a JSON string for now
         String report = new GsonBuilder().create().toJson(stats, SessionStatistics.class);
-        System.out.println(report);
+        System.out.println(stats.generateCSVReport());
         //create the file and close output stream
         File file = new File(directory, "sessionReport.txt");
+
         try {
             FileOutputStream stream = new FileOutputStream(file);
             stream.write(report.getBytes());
