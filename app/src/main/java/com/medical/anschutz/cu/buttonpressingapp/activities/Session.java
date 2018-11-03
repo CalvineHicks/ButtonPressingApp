@@ -44,6 +44,8 @@ public class Session extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_session);
 
+
+
         this.config = (SessionConfig) getIntent().getSerializableExtra("config");
 
         if(this.config == null){
@@ -81,6 +83,7 @@ public class Session extends AppCompatActivity {
     }
 
     private void generateScreen(int screenNum){
+
         ScreenConfig screenConfig = config.getScreenConfigs().get(screenNum);
         TableLayout buttonContainer = findViewById(R.id.buttonContainer);
         buttonContainer.removeAllViews();
@@ -101,14 +104,14 @@ public class Session extends AppCompatActivity {
                 }
                 button.setOnTouchListener(new View.OnTouchListener() {
                     Rect rect = null;
+
                     SessionStatistics.ScreenStatistics.ClickAttempt click = null;
                     long clickStartTime = 0;
+
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
-
                         switch (event.getAction()) {
                             case MotionEvent.ACTION_DOWN:
-                                // PRESSED
                                 rect = new Rect(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
                                 click = screenStats.addClickAttempt(event.getX(), event.getY());
                                 click.setPressure(event.getPressure());
@@ -132,7 +135,6 @@ public class Session extends AppCompatActivity {
                                         return false;
                                     }
                                 }
-
                         }
                         return false;
                     }
@@ -154,21 +156,42 @@ public class Session extends AppCompatActivity {
             }
         }
         this.screenStartTime = System.currentTimeMillis();
+
+        buttonContainer.setOnTouchListener(new ExitGestureListener());
     }
 
-    private void recursiveLoopChildren(ViewGroup parent) {
-        for (int i = 0; i < parent.getChildCount(); i++) {
-            final View child = parent.getChildAt(i);
-            if (child instanceof ViewGroup) {
-                recursiveLoopChildren((ViewGroup) child);
-                child.invalidate();
-            } else {
-                if (child != null) {
-                    child.invalidate();
+        public class ExitGestureListener implements View.OnTouchListener {
+            private boolean hitLeftCorner = false;
+            private int[] leftCorner;
+            private int[] rightCorner;
+            View v;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event){
+                this.v = v;
+                Rect r = new Rect();
+                this.v.getGlobalVisibleRect(r);
+                this.leftCorner = new int[]{r.left+50, r.bottom-50};
+                rightCorner = new int[]{r.right-50, r.bottom-50};
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        return false;
+                    case MotionEvent.ACTION_MOVE:
+                        boolean left = false;
+                        if(event.getX() < leftCorner[0] && event.getY() < leftCorner[1]){
+                            hitLeftCorner = true;
+                        }
+                        else if(hitLeftCorner && event.getX() > rightCorner[0] && event.getY() < rightCorner[1]){
+                            Intent myIntent = new Intent(this.v.getContext(), MainActivity.class);
+                            this.v.getContext().startActivity(myIntent);
+                        }
+                        return true;
                 }
+                return false;
             }
         }
-    }
 
     private void successClick(View view, SessionStatistics.ScreenStatistics screenStats){
         screenStats.setTimeToComplete(System.currentTimeMillis() - this.screenStartTime);
