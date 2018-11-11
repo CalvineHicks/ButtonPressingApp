@@ -9,14 +9,11 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.AppCompatImageButton;
-import android.util.AttributeSet;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.widget.Button;
-
+import android.widget.LinearLayout;
 import com.medical.anschutz.cu.buttonpressingapp.BuildConfig;
-import com.medical.anschutz.cu.buttonpressingapp.R;
 
 
 import java.io.File;

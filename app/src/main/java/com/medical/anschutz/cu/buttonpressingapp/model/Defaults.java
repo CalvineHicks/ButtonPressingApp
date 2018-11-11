@@ -31,6 +31,12 @@ public class Defaults {
     public static final int DEFAULT_BUTTON_Y_POSITION = 0;
     public static final int DEFAULT_BUTTON_ROTATION = 0;
 
+    //margin
+    public static final int DEFAULT_BUTTON_MARGIN_TOP = 5;
+    public static final int DEFAULT_BUTTON_MARGIN_BOTTOM = 5;
+    public static final int DEFAULT_BUTTON_MARGIN_LEFT = 5;
+    public static final int DEFAULT_BUTTON_MARGIN_RIGHT = 5;
+
     //clickable area
     public static final int CLICKABLE_AREA_TOP = 0;
     public static final int CLICKABLE_AREA_BOTTOM = 0;

@@ -88,7 +88,6 @@ public class Session extends AppCompatActivity {
         TableLayout buttonContainer = findViewById(R.id.buttonContainer);
         buttonContainer.removeAllViews();
         final SessionStatistics.ScreenStatistics screenStats = this.stats.addScreen(screenNum);
-
         //add button rows and butttons
         List<ScreenConfig.RowConfig> rowConfigs = screenConfig.getRowConfigs();
         for(ScreenConfig.RowConfig rowConfig : rowConfigs){
@@ -102,6 +101,11 @@ public class Session extends AppCompatActivity {
                     screenStats.setSuccessXLocation(buttonConfig.getxPosition() + buttonConfig.getWidth() / 2);
                     screenStats.setSuccessYLocation(buttonConfig.getyPosition() + buttonConfig.getHeight() / 2);
                 }
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT);
+                params.setMargins(buttonConfig.marginLeft, buttonConfig.marginTop, buttonConfig.marginRight, buttonConfig.marginBottom);
+                button.setLayoutParams(params);
                 button.setOnTouchListener(new View.OnTouchListener() {
                     Rect rect = null;
 
@@ -141,7 +145,6 @@ public class Session extends AppCompatActivity {
                 });
                 buttonRow.addView(button);
             }
-            //TODO : figure out scrolling (do we need to account for scrolling???
             if(rowConfig.isScrollEnabled()) {
                 ScrollView scrollView = new ScrollView(this);
                 scrollView.setFillViewport(true);
@@ -184,7 +187,7 @@ public class Session extends AppCompatActivity {
                             hitLeftCorner = true;
                         }
                         else if(hitLeftCorner && event.getX() > rightCorner[0] && event.getY() < rightCorner[1]){
-                            Intent myIntent = new Intent(this.v.getContext(), MainActivity.class);
+                            Intent myIntent = new Intent(this.v.getContext(), SessionComplete.class);
                             this.v.getContext().startActivity(myIntent);
                         }
                         return true;
@@ -195,6 +198,12 @@ public class Session extends AppCompatActivity {
 
     private void successClick(View view, SessionStatistics.ScreenStatistics screenStats){
         screenStats.setTimeToComplete(System.currentTimeMillis() - this.screenStartTime);
+        //TODO : once the success button is clicked OR if we reach the failure overwritre, calculate each click attempts distance from the success.
+        for(SessionStatistics.ScreenStatistics.ClickAttempt attempt : screenStats.getClickAttempts()){
+            Double distance = Math.sqrt((Math.pow((screenStats.getSuccessXLocation() - attempt.getClickEndLocationX()), 2) +
+                    Math.pow((screenStats.getSuccessYLocation() - attempt.getClickEndLocationY()), 2)));
+            attempt.setDistanceFromSuccessCenter(distance);
+        }
         if(config.getScreenConfigs().size() > (currentScreenNum + 1)) {
             currentScreenNum += 1;
             generateScreen(currentScreenNum);
@@ -204,13 +213,6 @@ public class Session extends AppCompatActivity {
             this.stats.setTimeToComplete(System.currentTimeMillis() - this.startTime);
             myIntent.putExtra("SessionStatistics", stats);
             this.startActivity(myIntent);
-        }
-        //TODO : once the success button is clicked OR if we reach the failure overwritre, calculate each click attempts distance from the success.
-        for(SessionStatistics.ScreenStatistics.ClickAttempt attempt : screenStats.getClickAttempts()){
-            System.out.println(screenStats.getSuccessXLocation());
-            Double distance = Math.sqrt((Math.pow((screenStats.getSuccessXLocation() - attempt.getClickEndLocationX()), 2) +
-                    Math.pow((screenStats.getSuccessYLocation() - attempt.getClickEndLocationY()), 2)));
-            attempt.setDistanceFromSuccessCenter(distance);
         }
     }
 

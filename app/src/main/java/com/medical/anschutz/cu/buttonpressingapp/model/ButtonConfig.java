@@ -14,6 +14,10 @@ public class ButtonConfig implements Serializable{
     private Integer yPosition = Defaults.DEFAULT_BUTTON_Y_POSITION;
     private Integer rotation = Defaults.DEFAULT_BUTTON_ROTATION;
     private String  buttonEvent = Defaults.DEFAULT_BUTTON_CLICK_EVENT;
+    public Integer marginTop = Defaults.DEFAULT_BUTTON_MARGIN_TOP;
+    public Integer marginBottom = Defaults.DEFAULT_BUTTON_MARGIN_BOTTOM;
+    public Integer marginLeft = Defaults.DEFAULT_BUTTON_MARGIN_LEFT;
+    public Integer marginRight = Defaults.DEFAULT_BUTTON_MARGIN_RIGHT;
 
     //Text and Styling
     private String text = Defaults.DEFAULT_BUTTON_TEXT;
