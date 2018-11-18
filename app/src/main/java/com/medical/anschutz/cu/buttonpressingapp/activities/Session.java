@@ -121,7 +121,7 @@ public class Session extends AppCompatActivity {
                         switch (event.getAction()) {
                             case MotionEvent.ACTION_DOWN:
                                 rect = new Rect(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
-                                pressTracker.trackPressDown(v, event);
+                                pressTracker.trackPressDown(v, event, true);
                                 return true; // if you want to handle the touch event
                             case MotionEvent.ACTION_UP:
                                 // RELEASED

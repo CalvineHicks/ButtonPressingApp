@@ -43,7 +43,7 @@ public class SessionComplete extends AppCompatActivity {
                 if(null != screenStats.getClickAttempts() && screenStats.getClickAttempts().size() > 0) {
                     for (ClickAttempt clickAttempt : screenStats.getClickAttempts()) {
                         i++;
-                        screenReport += "\n Click#" + i;
+                        screenReport += "\n Click#" + i + ": " + clickAttempt.getClickType();
                         screenReport += "\n\t Click Duration : " + clickAttempt.getTimeToCompleteFormatted();
                         screenReport += "\n\t Pressure : " + clickAttempt.getPressure();
                         screenReport += "\n\t Footprint : " + clickAttempt.getFingerFootprint();

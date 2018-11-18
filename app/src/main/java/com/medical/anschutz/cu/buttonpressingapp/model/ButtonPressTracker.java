@@ -15,10 +15,14 @@ public class ButtonPressTracker {
         screenStats = s;
     }
 
-    public void trackPressDown (View v, MotionEvent event) {
+    public void trackPressDown (View v, MotionEvent event, boolean isButton) {
         click = screenStats.addClickAttempt(event.getX(), event.getY());
         click.setPressure(event.getPressure());
         click.setFingerFootprint(event.getPointerCount() * event.getPressure());
+        if(isButton){
+            click.setClickType("Button");
+        }
+        else click.setClickType("Screen");
         clickStartTime = System.currentTimeMillis();
     }
 

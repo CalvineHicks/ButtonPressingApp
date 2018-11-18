@@ -12,6 +12,7 @@ public class ClickAttempt implements Serializable {
     private long timeToComplete = 0;
     private float fingerFootprint;
     private long clickStart = 0;
+    private String clickType = "Screen";
 
     public long getTimeToComplete() {
         return timeToComplete;
@@ -93,5 +94,14 @@ public class ClickAttempt implements Serializable {
 
     public void setClickStart(long clickStart) {
         this.clickStart = clickStart;
+    }
+
+
+    public String getClickType() {
+        return clickType;
+    }
+
+    public void setClickType(String clickType) {
+        this.clickType = clickType;
     }
 }
