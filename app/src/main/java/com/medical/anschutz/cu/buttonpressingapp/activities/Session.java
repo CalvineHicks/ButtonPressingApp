@@ -188,6 +188,7 @@ public class Session extends AppCompatActivity {
                         }
                         else if(hitLeftCorner && event.getX() > rightCorner[0] && event.getY() < rightCorner[1]){
                             Intent myIntent = new Intent(this.v.getContext(), SessionComplete.class);
+                            myIntent.putExtra("SessionStatistics", stats);
                             this.v.getContext().startActivity(myIntent);
                         }
                         return true;

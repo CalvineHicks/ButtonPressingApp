@@ -43,22 +43,33 @@ public class SessionComplete extends AppCompatActivity {
         totalTime.setText(totalTime.getText() + stats.getTimeToCompleteFormatted());
 
         LinearLayout linearLayout = (LinearLayout)findViewById(R.id.screenReport);
-        for(SessionStatistics.ScreenStatistics screenStats : stats.getScreenStatistics()){
-            TextView t = new TextView(this);
-            String screenReport = "Screen #"+screenStats.getScreenNum();
-            screenReport+="\n Time To Complete : "+screenStats.getTimeToCompleteFormatted();
-            screenReport+="\n Number of Failures : "+screenStats.getFailures();
-            int i = 0;
-            for(SessionStatistics.ScreenStatistics.ClickAttempt clickAttempt: screenStats.getClickAttempts()){
-                i++;
-                screenReport += "\n Click#"+i;
-                screenReport+="\n\t Click Duration : "+clickAttempt.getTimeToCompleteFormatted();
-                screenReport += "\n\t Pressure : "+clickAttempt.getPressure();
-                screenReport += "\n\t Footprint : "+clickAttempt.getFingerFootprint();
-                screenReport += "\n\t Distance From Success Center : "+clickAttempt.getDistanceFromSuccessCenter();
+        if(null != stats.getScreenStatistics()) {
+            for (SessionStatistics.ScreenStatistics screenStats : stats.getScreenStatistics()) {
+                TextView t = new TextView(this);
+                String screenReport = "Screen #" + screenStats.getScreenNum();
+                screenReport += "\n Time To Complete : " + screenStats.getTimeToCompleteFormatted();
+                screenReport += "\n Number of Failures : " + screenStats.getFailures();
+                int i = 0;
+                if(null != screenStats.getClickAttempts() && screenStats.getClickAttempts().size() > 0) {
+                    for (SessionStatistics.ScreenStatistics.ClickAttempt clickAttempt : screenStats.getClickAttempts()) {
+                        i++;
+                        screenReport += "\n Click#" + i;
+                        screenReport += "\n\t Click Duration : " + clickAttempt.getTimeToCompleteFormatted();
+                        screenReport += "\n\t Pressure : " + clickAttempt.getPressure();
+                        screenReport += "\n\t Footprint : " + clickAttempt.getFingerFootprint();
+                        screenReport += "\n\t Distance From Success Center : " + clickAttempt.getDistanceFromSuccessCenter();
+                    }
+                    t.setText(screenReport);
+                    linearLayout.addView(t);
+                }
+                else{
+                    t.setText("No Click Attempts Made");
+                }
             }
-            t.setText(screenReport);
-            linearLayout.addView(t);
+        }
+        else{
+            TextView t = new TextView(this);
+            t.setText("No Statistics Collected");
         }
     }
 
