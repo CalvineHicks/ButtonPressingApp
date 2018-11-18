@@ -9,59 +9,19 @@
 
     <Button
         android:id="@+id/start_session2"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="54dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
         android:onClick="startSession"
         android:text="Start Session"
+        android:textColorLink="@color/colorAccent"
         android:textSize="27dp"
-        app:layout_constraintBottom_toTopOf="@+id/practice"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/practice2" />
-
-    <Button
-        android:id="@+id/practice2"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="14dp"
-        android:layout_marginTop="24dp"
-        android:text="Practice"
-        android:textSize="26dp"
-        app:layout_constraintBottom_toTopOf="@+id/config"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/config2"
-        android:layout_width="0dp"
-        android:layout_height="70dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="35dp"
-        android:layout_marginRight="35dp"
-        android:text="Config"
-        android:textSize="25dp"
-        app:layout_constraintBottom_toTopOf="@+id/data_export2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/start_session2" />
-
-    <Button
-        android:id="@+id/data_export2"
-        android:layout_width="0dp"
-        android:layout_height="70dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="35dp"
-        android:layout_marginRight="35dp"
-        android:text="Data Export"
-        android:textSize="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/config" />
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

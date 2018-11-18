@@ -32,7 +32,7 @@ public class SessionComplete extends AppCompatActivity {
         TextView totalTime = (TextView) findViewById(R.id.totalTime);
         totalTime.setText(totalTime.getText() + stats.getTimeToCompleteFormatted());
 
-        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.screenReport);
+        LinearLayout linearLayout = findViewById(R.id.screenReport);
         if(null != stats.getScreenStatistics()) {
             for (ScreenStatistics screenStats : stats.getScreenStatistics()) {
                 TextView t = new TextView(this);
@@ -74,15 +74,11 @@ public class SessionComplete extends AppCompatActivity {
         }
 
         try {
-            System.out.println("exporting" + stats.generateCSVReportArrays().toString());
-
             writer = new CSVWriter(new FileWriter(directory.getAbsolutePath() + "/Session_" + stats.getSessionID() + ".csv"));
             writer.writeAll(stats.generateCSVReportArrays());
             writer.close();
-            System.out.println("export complete");
         }
         catch(Exception e){
-            System.out.println("export failed");
             e.printStackTrace();
         }
     }
