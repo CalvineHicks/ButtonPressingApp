@@ -53,8 +53,8 @@ public class SessionStatistics implements Serializable{
 
     public List<String[]> generateCSVReportArrays(){
         List<String[]> results = new ArrayList<>();
-        String[] headers = {"Session ID","Screen Number","Total Sesssion Time","Time To Complete Screen","Attempt #",
-                "Distance From Success Center", "Pressure", "Finger Footprint","Click Start X", "Click Start Y", "Click End X", "Click End Y"};
+        String[] headers = {"Session ID","Screen Number","Total Session Time","Time To Complete Screen","Attempt #",
+                "Distance From Success Center", "Pressure", "Finger Footprint","Click Start X", "Click Start Y", "Click End X", "Click End Y", "Click Duration"};
         results.add(headers);
         for(ScreenStatistics s : screenStatistics){
             for(int i = 0; i < s.getClickAttempts().size(); i++){
@@ -72,6 +72,7 @@ public class SessionStatistics implements Serializable{
                 screenResult[9] = Float.toString(c.getClickStartLocationY());
                 screenResult[10] = Float.toString(c.getClickEndLocationX());
                 screenResult[11] = Float.toString(c.getClickEndLocationY());
+                screenResult[12] = Long.toString(c.getTimeToComplete());
                 results.add(screenResult);
             }
         }

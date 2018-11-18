@@ -16,6 +16,7 @@ import android.widget.TableLayout;
 import com.medical.anschutz.cu.buttonpressingapp.R;
 import com.medical.anschutz.cu.buttonpressingapp.model.ButtonConfig;
 import com.medical.anschutz.cu.buttonpressingapp.model.ExtendedButton;
+import com.medical.anschutz.cu.buttonpressingapp.model.ScreenClickListener;
 import com.medical.anschutz.cu.buttonpressingapp.model.ScreenConfig;
 import com.medical.anschutz.cu.buttonpressingapp.model.SessionConfig;
 import com.medical.anschutz.cu.buttonpressingapp.model.statistics.ClickAttempt;
@@ -112,7 +113,6 @@ public class Session extends AppCompatActivity {
                     Rect rect = null;
 
                     ClickAttempt click = null;
-                    long clickStartTime = 0;
 
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
@@ -122,13 +122,14 @@ public class Session extends AppCompatActivity {
                                 click = screenStats.addClickAttempt(event.getX(), event.getY());
                                 click.setPressure(event.getPressure());
                                 click.setFingerFootprint(event.getPointerCount() * event.getPressure());
-                                clickStartTime = System.currentTimeMillis();
+                                click.setClickStart(System.currentTimeMillis());
                                 return false; // if you want to handle the touch event
                             case MotionEvent.ACTION_UP:
                                 // RELEASED
+                                click = screenStats.getClickAttempts().get(screenStats.getClickAttempts().size()-1);
                                 click.setClickEndLocationX(event.getX());
                                 click.setClickEndLocationY(event.getY());
-                                click.setTimeToComplete(System.currentTimeMillis() - clickStartTime);
+                                click.setTimeToComplete(System.currentTimeMillis() - click.getClickStart());
                                 if (null != rect && !rect.contains(v.getLeft() + (int) event.getX(), v.getTop() + (int) event.getY())) {
 
                                 } else {
@@ -162,43 +163,8 @@ public class Session extends AppCompatActivity {
         }
         this.screenStartTime = System.currentTimeMillis();
 
-        buttonContainer.setOnTouchListener(new ExitGestureListener());
+        buttonContainer.setOnTouchListener(new ScreenClickListener(stats, screenStats, startTime));
     }
-
-        public class ExitGestureListener implements View.OnTouchListener {
-            private boolean hitLeftCorner = false;
-            private int[] leftCorner;
-            private int[] rightCorner;
-            View v;
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event){
-                this.v = v;
-                Rect r = new Rect();
-                this.v.getGlobalVisibleRect(r);
-                this.leftCorner = new int[]{r.left+50, r.bottom-50};
-                rightCorner = new int[]{r.right-50, r.bottom-50};
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        return true;
-                    case MotionEvent.ACTION_UP:
-                        return false;
-                    case MotionEvent.ACTION_MOVE:
-                        boolean left = false;
-                        if(event.getX() < leftCorner[0] && event.getY() < leftCorner[1]){
-                            hitLeftCorner = true;
-                        }
-                        else if(hitLeftCorner && event.getX() > rightCorner[0] && event.getY() < rightCorner[1]){
-                            Intent myIntent = new Intent(this.v.getContext(), SessionComplete.class);
-                            stats.setTimeToComplete(System.currentTimeMillis() - startTime);
-                            myIntent.putExtra("SessionStatistics", stats);
-                            this.v.getContext().startActivity(myIntent);
-                        }
-                        return true;
-                }
-                return false;
-            }
-        }
 
     private void successClick(View view, ScreenStatistics screenStats){
         screenStats.setTimeToComplete(System.currentTimeMillis() - this.screenStartTime);

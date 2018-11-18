@@ -11,6 +11,7 @@ public class ClickAttempt implements Serializable {
     private float pressure;
     private long timeToComplete = 0;
     private float fingerFootprint;
+    private long clickStart = 0;
 
     public long getTimeToComplete() {
         return timeToComplete;
@@ -84,5 +85,13 @@ public class ClickAttempt implements Serializable {
 
     public void setFingerFootprint(float fingerFootprint) {
         this.fingerFootprint = fingerFootprint;
+    }
+
+    public long getClickStart() {
+        return clickStart;
+    }
+
+    public void setClickStart(long clickStart) {
+        this.clickStart = clickStart;
     }
 }
