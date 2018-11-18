@@ -26,6 +26,8 @@ public class ScreenClickListener implements View.OnTouchListener {
 
     View v;
 
+    //any click events that occur on buttons are handled there and not passed to the screen touch listener
+    //this listener accounts for clicks on the screen, outside of the buttons view
     @Override
     public boolean onTouch(View v, MotionEvent event){
         this.v = v;
@@ -36,28 +38,44 @@ public class ScreenClickListener implements View.OnTouchListener {
         ClickAttempt click = null;
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                System.out.println("screen clicked");
                 click = screenStats.addClickAttempt(event.getX(), event.getY());
                 click.setPressure(event.getPressure());
                 click.setFingerFootprint(event.getPointerCount() * event.getPressure());
+                click.setClickStart(System.currentTimeMillis());
                 return true;
             case MotionEvent.ACTION_UP:
-                //set the last clicks location on action up. no matter what action down adds to the end of the list
-                screenStats.getClickAttempts().get(screenStats.getClickAttempts().size()-1).setClickEndLocationX(event.getX());
-                screenStats.getClickAttempts().get(screenStats.getClickAttempts().size()-1).setClickEndLocationY(event.getY());
+                //set the last clicks location on action up. no matter what action down adds to the end of the list0
+                //this is removed if the user does a gesture to exit
+                if(screenStats.getClickAttempts().size() > 0) {
+                    click = screenStats.getClickAttempts().get(screenStats.getClickAttempts().size() - 1);
+                    click.setClickEndLocationX(event.getX());
+                    click.setClickEndLocationY(event.getY());
+                    click.setTimeToComplete(System.currentTimeMillis() - click.getClickStart());
+                }
+                //if we have an action up that isnt handled by a button click listener then increment the failure count
+                screenStats.incrementFailues();
+                hitLeftCorner = false;
                 return true;
             case MotionEvent.ACTION_MOVE:
                 if(event.getX() < leftCorner[0] && event.getY() < leftCorner[1]){
                     hitLeftCorner = true;
                 }
                 else if(hitLeftCorner && event.getX() > rightCorner[0] && event.getY() < rightCorner[1]){
-                    screenStats.getClickAttempts().remove(screenStats.getClickAttempts().size()-1);
+                    if(screenStats.getClickAttempts().size() > 0) {
+                        screenStats.getClickAttempts().remove(screenStats.getClickAttempts().size() - 1);
+                    }
+                    hitLeftCorner = false;
+                    for(ClickAttempt attempt : screenStats.getClickAttempts()){
+                        Double distance = Math.sqrt((Math.pow((screenStats.getSuccessXLocation() - attempt.getClickEndLocationX()), 2) +
+                                Math.pow((screenStats.getSuccessYLocation() - attempt.getClickEndLocationY()), 2)));
+                        attempt.setDistanceFromSuccessCenter(distance);
+                    }
                     Intent myIntent = new Intent(this.v.getContext(), SessionComplete.class);
                     stats.setTimeToComplete(System.currentTimeMillis() - sessionStartTime);
                     myIntent.putExtra("SessionStatistics", stats);
                     this.v.getContext().startActivity(myIntent);
                 }
-                return true;
+                return false;
         }
         return false;
     }

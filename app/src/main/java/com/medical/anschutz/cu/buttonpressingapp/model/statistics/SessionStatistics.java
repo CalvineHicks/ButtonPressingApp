@@ -72,7 +72,7 @@ public class SessionStatistics implements Serializable{
                 screenResult[9] = Float.toString(c.getClickStartLocationY());
                 screenResult[10] = Float.toString(c.getClickEndLocationX());
                 screenResult[11] = Float.toString(c.getClickEndLocationY());
-                screenResult[12] = Long.toString(c.getTimeToComplete());
+                screenResult[12] = c.getTimeToCompleteFormatted();
                 results.add(screenResult);
             }
         }
