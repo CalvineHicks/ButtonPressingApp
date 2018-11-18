@@ -1,31 +1,21 @@
 package com.medical.anschutz.cu.buttonpressingapp.activities;
 
-import android.app.ActionBar;
-import android.app.DownloadManager;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.AssetManager;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.GsonBuilder;
 import com.medical.anschutz.cu.buttonpressingapp.R;
-import com.medical.anschutz.cu.buttonpressingapp.model.ScreenConfig;
-import com.medical.anschutz.cu.buttonpressingapp.model.SessionStatistics;
+import com.medical.anschutz.cu.buttonpressingapp.model.statistics.ClickAttempt;
+import com.medical.anschutz.cu.buttonpressingapp.model.statistics.ScreenStatistics;
+import com.medical.anschutz.cu.buttonpressingapp.model.statistics.SessionStatistics;
+import com.opencsv.CSVWriter;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 
 public class SessionComplete extends AppCompatActivity {
 
@@ -44,14 +34,14 @@ public class SessionComplete extends AppCompatActivity {
 
         LinearLayout linearLayout = (LinearLayout)findViewById(R.id.screenReport);
         if(null != stats.getScreenStatistics()) {
-            for (SessionStatistics.ScreenStatistics screenStats : stats.getScreenStatistics()) {
+            for (ScreenStatistics screenStats : stats.getScreenStatistics()) {
                 TextView t = new TextView(this);
                 String screenReport = "Screen #" + screenStats.getScreenNum();
                 screenReport += "\n Time To Complete : " + screenStats.getTimeToCompleteFormatted();
                 screenReport += "\n Number of Failures : " + screenStats.getFailures();
                 int i = 0;
                 if(null != screenStats.getClickAttempts() && screenStats.getClickAttempts().size() > 0) {
-                    for (SessionStatistics.ScreenStatistics.ClickAttempt clickAttempt : screenStats.getClickAttempts()) {
+                    for (ClickAttempt clickAttempt : screenStats.getClickAttempts()) {
                         i++;
                         screenReport += "\n Click#" + i;
                         screenReport += "\n\t Click Duration : " + clickAttempt.getTimeToCompleteFormatted();
@@ -75,24 +65,24 @@ public class SessionComplete extends AppCompatActivity {
 
     public void downloadClick(View v) {
     //get path to reports folder
+        CSVWriter writer = null;
         File sdCard = Environment.getExternalStorageDirectory();
         File directory = new File (sdCard.getAbsolutePath() + "/ButtonPressingApp/reports");
         //if the reports dir does not exist, create it
         if (!directory.exists()) {
             directory.mkdirs();
         }
-        //convert our report to a JSON string for now
-        String report = new GsonBuilder().create().toJson(stats, SessionStatistics.class);
-        System.out.println(stats.generateCSVReport());
-        //create the file and close output stream
-        File file = new File(directory, "sessionReport.txt");
 
         try {
-            FileOutputStream stream = new FileOutputStream(file);
-            stream.write(report.getBytes());
-            stream.close();
+            System.out.println("exporting" + stats.generateCSVReportArrays().toString());
+
+            writer = new CSVWriter(new FileWriter(directory.getAbsolutePath() + "/Session_" + stats.getSessionID() + ".csv"));
+            writer.writeAll(stats.generateCSVReportArrays());
+            writer.close();
+            System.out.println("export complete");
         }
         catch(Exception e){
+            System.out.println("export failed");
             e.printStackTrace();
         }
     }

@@ -64,8 +64,6 @@ public class ExtendedButton extends AppCompatButton {
             catch(Exception e){
                 e.printStackTrace();
             }
-
-
         }
         //
     }

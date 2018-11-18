@@ -1,8 +1,7 @@
 package com.medical.anschutz.cu.buttonpressingapp.activities;
 
 
-import android.app.Activity;
-import android.app.DialogFragment;
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
@@ -10,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
@@ -20,7 +18,9 @@ import com.medical.anschutz.cu.buttonpressingapp.model.ButtonConfig;
 import com.medical.anschutz.cu.buttonpressingapp.model.ExtendedButton;
 import com.medical.anschutz.cu.buttonpressingapp.model.ScreenConfig;
 import com.medical.anschutz.cu.buttonpressingapp.model.SessionConfig;
-import com.medical.anschutz.cu.buttonpressingapp.model.SessionStatistics;
+import com.medical.anschutz.cu.buttonpressingapp.model.statistics.ClickAttempt;
+import com.medical.anschutz.cu.buttonpressingapp.model.statistics.ScreenStatistics;
+import com.medical.anschutz.cu.buttonpressingapp.model.statistics.SessionStatistics;
 import com.medical.anschutz.cu.buttonpressingapp.model.Defaults;
 import com.medical.anschutz.cu.buttonpressingapp.services.UserIDDialogGenerator;
 
@@ -29,6 +29,8 @@ import java.util.List;
 import static com.medical.anschutz.cu.buttonpressingapp.model.Defaults.FAILURE_BUTTON_CLICK_EVENT;
 import static com.medical.anschutz.cu.buttonpressingapp.model.Defaults.SUCCESS_BUTTON_CLICK_EVENT;
 
+
+@SuppressLint("ClickableViewAccessibility")
 public class Session extends AppCompatActivity {
 
     private int currentScreenNum = 0;
@@ -87,7 +89,7 @@ public class Session extends AppCompatActivity {
         ScreenConfig screenConfig = config.getScreenConfigs().get(screenNum);
         TableLayout buttonContainer = findViewById(R.id.buttonContainer);
         buttonContainer.removeAllViews();
-        final SessionStatistics.ScreenStatistics screenStats = this.stats.addScreen(screenNum);
+        final ScreenStatistics screenStats = this.stats.addScreen(screenNum);
         //add button rows and butttons
         List<ScreenConfig.RowConfig> rowConfigs = screenConfig.getRowConfigs();
         for(ScreenConfig.RowConfig rowConfig : rowConfigs){
@@ -109,7 +111,7 @@ public class Session extends AppCompatActivity {
                 button.setOnTouchListener(new View.OnTouchListener() {
                     Rect rect = null;
 
-                    SessionStatistics.ScreenStatistics.ClickAttempt click = null;
+                    ClickAttempt click = null;
                     long clickStartTime = 0;
 
                     @Override
@@ -197,10 +199,10 @@ public class Session extends AppCompatActivity {
             }
         }
 
-    private void successClick(View view, SessionStatistics.ScreenStatistics screenStats){
+    private void successClick(View view, ScreenStatistics screenStats){
         screenStats.setTimeToComplete(System.currentTimeMillis() - this.screenStartTime);
-        //TODO : once the success button is clicked OR if we reach the failure overwritre, calculate each click attempts distance from the success.
-        for(SessionStatistics.ScreenStatistics.ClickAttempt attempt : screenStats.getClickAttempts()){
+        //TODO : once the success button is clicked OR if we reach the failure overwrite, calculate each click attempts distance from the success.
+        for(ClickAttempt attempt : screenStats.getClickAttempts()){
             Double distance = Math.sqrt((Math.pow((screenStats.getSuccessXLocation() - attempt.getClickEndLocationX()), 2) +
                     Math.pow((screenStats.getSuccessYLocation() - attempt.getClickEndLocationY()), 2)));
             attempt.setDistanceFromSuccessCenter(distance);
@@ -217,7 +219,7 @@ public class Session extends AppCompatActivity {
         }
     }
 
-    private void failureClick(View view, SessionStatistics.ScreenStatistics screenStats){
+    private void failureClick(View view, ScreenStatistics screenStats){
         screenStats.incrementFailues();
         if(config.getProgressionRule().equals(Defaults.PROGRESSION_RULE.PROGRESS_ON_BUTTON_PRESS)){
             screenStats.setFailureLimitReached(true);
