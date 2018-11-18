@@ -15,6 +15,7 @@ import android.widget.TableLayout;
 
 import com.medical.anschutz.cu.buttonpressingapp.R;
 import com.medical.anschutz.cu.buttonpressingapp.model.ButtonConfig;
+import com.medical.anschutz.cu.buttonpressingapp.model.ButtonPressTracker;
 import com.medical.anschutz.cu.buttonpressingapp.model.ExtendedButton;
 import com.medical.anschutz.cu.buttonpressingapp.model.ScreenClickListener;
 import com.medical.anschutz.cu.buttonpressingapp.model.ScreenConfig;
@@ -109,6 +110,7 @@ public class Session extends AppCompatActivity {
                         LinearLayout.LayoutParams.WRAP_CONTENT);
                 params.setMargins(buttonConfig.marginLeft, buttonConfig.marginTop, buttonConfig.marginRight, buttonConfig.marginBottom);
                 button.setLayoutParams(params);
+                final ButtonPressTracker pressTracker = new ButtonPressTracker(screenStats);
                 button.setOnTouchListener(new View.OnTouchListener() {
                     Rect rect = null;
 
@@ -119,17 +121,11 @@ public class Session extends AppCompatActivity {
                         switch (event.getAction()) {
                             case MotionEvent.ACTION_DOWN:
                                 rect = new Rect(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
-                                click = screenStats.addClickAttempt(event.getX(), event.getY());
-                                click.setPressure(event.getPressure());
-                                click.setFingerFootprint(event.getPointerCount() * event.getPressure());
-                                click.setClickStart(System.currentTimeMillis());
-                                return false; // if you want to handle the touch event
+                                pressTracker.trackPressDown(v, event);
+                                return true; // if you want to handle the touch event
                             case MotionEvent.ACTION_UP:
                                 // RELEASED
-                                click = screenStats.getClickAttempts().get(screenStats.getClickAttempts().size()-1);
-                                click.setClickEndLocationX(event.getX());
-                                click.setClickEndLocationY(event.getY());
-                                click.setTimeToComplete(System.currentTimeMillis() - click.getClickStart());
+                                pressTracker.trackPressUp(v, event);
                                 if (null != rect && !rect.contains(v.getLeft() + (int) event.getX(), v.getTop() + (int) event.getY())) {
 
                                 } else {
@@ -193,5 +189,4 @@ public class Session extends AppCompatActivity {
             successClick(view, screenStats);
         }
     }
-           //TODO handle any screen press
 }

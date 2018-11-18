@@ -36,21 +36,16 @@ public class ScreenClickListener implements View.OnTouchListener {
         this.leftCorner = new int[]{r.left+50, r.bottom-50};
         rightCorner = new int[]{r.right-50, r.bottom-50};
         ClickAttempt click = null;
+        final ButtonPressTracker pressTracker = new ButtonPressTracker(this.screenStats);
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                click = screenStats.addClickAttempt(event.getX(), event.getY());
-                click.setPressure(event.getPressure());
-                click.setFingerFootprint(event.getPointerCount() * event.getPressure());
-                click.setClickStart(System.currentTimeMillis());
+                pressTracker.trackPressDown(v, event);
                 return true;
             case MotionEvent.ACTION_UP:
                 //set the last clicks location on action up. no matter what action down adds to the end of the list0
                 //this is removed if the user does a gesture to exit
                 if(screenStats.getClickAttempts().size() > 0) {
-                    click = screenStats.getClickAttempts().get(screenStats.getClickAttempts().size() - 1);
-                    click.setClickEndLocationX(event.getX());
-                    click.setClickEndLocationY(event.getY());
-                    click.setTimeToComplete(System.currentTimeMillis() - click.getClickStart());
+                    pressTracker.trackPressDown(v, event);
                 }
                 //if we have an action up that isnt handled by a button click listener then increment the failure count
                 screenStats.incrementFailues();
