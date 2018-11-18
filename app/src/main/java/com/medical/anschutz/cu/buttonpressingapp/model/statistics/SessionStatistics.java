@@ -62,15 +62,16 @@ public class SessionStatistics implements Serializable{
                 String[] screenResult = new String[headers.length];
                 screenResult[0] = sessionID;
                 screenResult[1] = Integer.toString(s.getScreenNum() + 1);
-                screenResult[2] = s.getTimeToCompleteFormatted();
-                screenResult[3] = Integer.toString(i + 1);
-                screenResult[4] = Double.toString(c.getDistanceFromSuccessCenter());
-                screenResult[5] = Float.toString(c.getPressure());
-                screenResult[6] = Float.toString(c.getFingerFootprint());
-                screenResult[7] = Float.toString(c.getClickStartLocationX());
-                screenResult[8] = Float.toString(c.getClickStartLocationY());
-                screenResult[9] = Float.toString(c.getClickEndLocationX());
-                screenResult[10] = Float.toString(c.getClickEndLocationY());
+                screenResult[2] = getTimeToCompleteFormatted();
+                screenResult[3] = s.getTimeToCompleteFormatted();
+                screenResult[4] = Integer.toString(i + 1);
+                screenResult[5] = Double.toString(c.getDistanceFromSuccessCenter());
+                screenResult[6] = Float.toString(c.getPressure());
+                screenResult[7] = Float.toString(c.getFingerFootprint());
+                screenResult[8] = Float.toString(c.getClickStartLocationX());
+                screenResult[9] = Float.toString(c.getClickStartLocationY());
+                screenResult[10] = Float.toString(c.getClickEndLocationX());
+                screenResult[11] = Float.toString(c.getClickEndLocationY());
                 results.add(screenResult);
             }
         }
