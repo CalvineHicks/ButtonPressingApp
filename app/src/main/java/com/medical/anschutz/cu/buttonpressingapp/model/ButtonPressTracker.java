@@ -18,7 +18,7 @@ public class ButtonPressTracker {
     public void trackPressDown (View v, MotionEvent event, boolean isButton) {
         click = screenStats.addClickAttempt(event.getX(), event.getY());
         click.setPressure(event.getPressure());
-        click.setFingerFootprint(event.getPointerCount() * event.getPressure());
+        click.setFingerFootprint(event.getSize());
         if(isButton){
             click.setClickType("Button");
         }
