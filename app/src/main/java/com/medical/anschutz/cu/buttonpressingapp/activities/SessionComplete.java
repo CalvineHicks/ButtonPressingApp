@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.medical.anschutz.cu.buttonpressingapp.R;
+import com.medical.anschutz.cu.buttonpressingapp.model.defaults.GlobalDefaults;
 import com.medical.anschutz.cu.buttonpressingapp.model.statistics.ClickAttempt;
 import com.medical.anschutz.cu.buttonpressingapp.model.statistics.ScreenStatistics;
 import com.medical.anschutz.cu.buttonpressingapp.model.statistics.SessionStatistics;
@@ -67,7 +68,7 @@ public class SessionComplete extends AppCompatActivity {
     //get path to reports folder
         CSVWriter writer = null;
         File sdCard = Environment.getExternalStorageDirectory();
-        File directory = new File (sdCard.getAbsolutePath() + "/ButtonPressingApp/reports");
+        File directory = new File (sdCard.getAbsolutePath() + GlobalDefaults.REPORT_DIR);
         //if the reports dir does not exist, create it
         if (!directory.exists()) {
             directory.mkdirs();

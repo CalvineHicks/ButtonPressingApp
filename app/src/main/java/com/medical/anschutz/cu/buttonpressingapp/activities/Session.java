@@ -23,13 +23,13 @@ import com.medical.anschutz.cu.buttonpressingapp.model.SessionConfig;
 import com.medical.anschutz.cu.buttonpressingapp.model.statistics.ClickAttempt;
 import com.medical.anschutz.cu.buttonpressingapp.model.statistics.ScreenStatistics;
 import com.medical.anschutz.cu.buttonpressingapp.model.statistics.SessionStatistics;
-import com.medical.anschutz.cu.buttonpressingapp.model.Defaults;
+import com.medical.anschutz.cu.buttonpressingapp.model.defaults.Defaults;
 import com.medical.anschutz.cu.buttonpressingapp.services.UserIDDialogGenerator;
 
 import java.util.List;
 
-import static com.medical.anschutz.cu.buttonpressingapp.model.Defaults.FAILURE_BUTTON_CLICK_EVENT;
-import static com.medical.anschutz.cu.buttonpressingapp.model.Defaults.SUCCESS_BUTTON_CLICK_EVENT;
+import static com.medical.anschutz.cu.buttonpressingapp.model.defaults.Defaults.FAILURE_BUTTON_CLICK_EVENT;
+import static com.medical.anschutz.cu.buttonpressingapp.model.defaults.Defaults.SUCCESS_BUTTON_CLICK_EVENT;
 
 
 @SuppressLint("ClickableViewAccessibility")
@@ -164,7 +164,6 @@ public class Session extends AppCompatActivity {
 
     private void successClick(View view, ScreenStatistics screenStats){
         screenStats.setTimeToComplete(System.currentTimeMillis() - this.screenStartTime);
-        //TODO : once the success button is clicked OR if we reach the failure overwrite, calculate each click attempts distance from the success.
         for(ClickAttempt attempt : screenStats.getClickAttempts()){
             Double distance = Math.sqrt((Math.pow((screenStats.getSuccessXLocation() - attempt.getClickEndLocationX()), 2) +
                     Math.pow((screenStats.getSuccessYLocation() - attempt.getClickEndLocationY()), 2)));

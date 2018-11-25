@@ -1,20 +1,18 @@
 package com.medical.anschutz.cu.buttonpressingapp.activities;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.content.Intent;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.medical.anschutz.cu.buttonpressingapp.R;
 import com.medical.anschutz.cu.buttonpressingapp.model.SessionConfig;
 import com.medical.anschutz.cu.buttonpressingapp.model.defaults.GlobalDefaults;
-import com.medical.anschutz.cu.buttonpressingapp.services.dataTransformers;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -26,28 +24,43 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
-
-    private Button button;
-    private Button button2;
-
+public class SessionSelect extends AppCompatActivity {
+    RadioGroup radioGroup = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.session_select);
+
+        radioGroup = findViewById(R.id.checkboxGroup);
+
+
+        List<String> filenames = getConfigList();
+        for(String filename : filenames){
+            RadioButton radio = new RadioButton(this);
+            radio.setMinimumWidth(radioGroup.getWidth());
+            radio.setText(filename);
+            radio.setBottom(5);
+            radioGroup.addView(radio);
+        }
+        //get list of filenames from directory
+        //add filenames to list for display
+        //load selected config and begin session
     }
 
-    public void sessionSelect(View view){
-        Intent intent = new Intent(view.getContext(), SessionSelect.class);
-        this.startActivity(intent);
-    }
+    public void startSession(View v){
+        Intent intent = new Intent(v.getContext(), Session.class);
+        int radioButtonID = radioGroup.getCheckedRadioButtonId();
+        View radioButton = radioGroup.findViewById(radioButtonID);
+        int idx = radioGroup.indexOfChild(radioButton);
+        RadioButton r = (RadioButton) radioGroup.getChildAt(idx);
+        String filename = r.getText().toString();
 
-    public void startSession(View view){
-        Intent intent = new Intent(view.getContext(), Session.class);
         String confString = null;
         try {
-            confString = getConfigFileString();
+            confString = getConfigFileString(filename);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -60,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    private String getConfigFileString() throws IOException {
+    private String getConfigFileString(String filename) throws IOException {
         //get config directory on sdcard
         File sdCard = Environment.getExternalStorageDirectory();
         File directory = new File (sdCard.getAbsolutePath() + GlobalDefaults.SCREEN_CONFIG_DIR);
@@ -69,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
             directory.mkdirs();
         }
         //get the config file from the directory
-        File file = new File(directory, "session_config.json");
+        File file = new File(directory, filename);
         InputStream is = null;
         Writer writer = new StringWriter();
         //if the file does not exist fall back to the internal one
@@ -105,4 +118,20 @@ public class MainActivity extends AppCompatActivity {
         String jsonString = writer.toString();
         return jsonString;
     }
+
+    private List<String> getConfigList(){
+        File sdCard = Environment.getExternalStorageDirectory();
+        File directory = new File (sdCard.getAbsolutePath() + GlobalDefaults.SCREEN_CONFIG_DIR);
+        List<String> filenames = new ArrayList<>();
+        if (!directory.exists()) {
+            return filenames;
+        }
+        //get the config file from the directory
+        File[] files = directory.listFiles();
+        for(int i = 0; i < files.length; i++){
+            filenames.add(files[i].getName());
+        }
+        return filenames;
+    }
+
 }
