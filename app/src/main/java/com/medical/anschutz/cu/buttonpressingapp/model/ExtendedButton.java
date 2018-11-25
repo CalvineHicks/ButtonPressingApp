@@ -12,13 +12,14 @@ import android.support.v7.widget.AppCompatButton;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
+
 import com.medical.anschutz.cu.buttonpressingapp.BuildConfig;
+import com.medical.anschutz.cu.buttonpressingapp.model.defaults.Defaults;
+import com.medical.anschutz.cu.buttonpressingapp.model.defaults.GlobalDefaults;
 
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.ArrayList;
 
 public class ExtendedButton extends AppCompatButton {
     public String eventType = Defaults.DEFAULT_BUTTON_CLICK_EVENT;
@@ -50,7 +51,7 @@ public class ExtendedButton extends AppCompatButton {
 
             File sdCard = Environment.getExternalStorageDirectory();
 
-            File directory = new File (sdCard.getAbsolutePath() + "/ButtonPressingApp/images");
+            File directory = new File (sdCard.getAbsolutePath() + GlobalDefaults.IMAGE_DIR);
 
             File file = new File(directory, config.getImage()); //or any other format supported
             FileInputStream streamIn = null;

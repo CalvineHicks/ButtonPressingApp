@@ -1,7 +1,8 @@
 package com.medical.anschutz.cu.buttonpressingapp.model;
 
+import com.medical.anschutz.cu.buttonpressingapp.model.defaults.Defaults;
+
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 

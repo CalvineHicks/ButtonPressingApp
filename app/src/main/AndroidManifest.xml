@@ -22,6 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.Session" />
+        <activity android:name=".activities.SessionSelect" />
         <activity android:name=".activities.SessionComplete"></activity>
     </application>
 </manifest>

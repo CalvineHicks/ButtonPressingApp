@@ -1,4 +1,4 @@
-package com.medical.anschutz.cu.buttonpressingapp.model;
+package com.medical.anschutz.cu.buttonpressingapp.model.defaults;
 
 import android.graphics.Color;
 import android.graphics.Typeface;

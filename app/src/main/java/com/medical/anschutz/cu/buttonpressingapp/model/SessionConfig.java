@@ -1,6 +1,7 @@
 package com.medical.anschutz.cu.buttonpressingapp.model;
 
 import com.google.gson.Gson;
+import com.medical.anschutz.cu.buttonpressingapp.model.defaults.Defaults;
 
 import java.io.Serializable;
 import java.util.ArrayList;
